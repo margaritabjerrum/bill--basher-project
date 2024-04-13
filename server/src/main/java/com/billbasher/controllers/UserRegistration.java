@@ -12,16 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserRegistration {
 
-    @Autowired
-    private UserService userService;
 
-    @PostMapping("/api/v1/register")
-    public ResponseEntity<String> userRegistration(@RequestBody UserDAO userDAO) {
-        try {
-            userService.registerUser(userDAO);
-            return ResponseEntity.ok("User registered successfully!");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 }
