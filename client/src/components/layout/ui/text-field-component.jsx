@@ -12,6 +12,7 @@ const TextFieldComponent = ({ defaultValue, required, label, name, type }) => {
         label={label}
         name={name}
         type={type}
+        variant="filled"
       />
     </Grid>
   );
@@ -19,7 +20,7 @@ const TextFieldComponent = ({ defaultValue, required, label, name, type }) => {
 
 TextFieldComponent.propTypes = {
   defaultValue: PropTypes.string,
-  required: PropTypes.boleen,
+  required: PropTypes.bool,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,

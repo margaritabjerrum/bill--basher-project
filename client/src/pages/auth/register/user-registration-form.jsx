@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Img from '../../../components/layout/ui/img';
-// import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+// import ApiService from '../../services/api-service';
 import {
   Avatar,
+  Alert,
   Box,
   Button,
   Container,
@@ -11,14 +11,17 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import LockIcon from '@mui/icons-material/Lock';
 import TextFieldComponent from '../../../components/layout/ui/text-field-component';
+import Img from '../../../components/layout/ui/img';
+import LockIcon from '@mui/icons-material/Lock';
 
-const UserLoginForm = () => {
+const UserRegistrationForm = () => {
   const navigate = useNavigate();
+  const [error, setError] = React.useState('');
 
-  const loginUser = (userLoginData) => {
-    console.log(userLoginData);
+  const createUser = (data) => {
+    console.log(data);
+    navigate('/');
   };
 
   const handleSubmit = (e) => {
@@ -26,18 +29,29 @@ const UserLoginForm = () => {
     const formData = new FormData(e.currentTarget);
 
     const username = formData.get('username');
+    const firstName = formData.get('firstName');
+    const lastName = formData.get('lastName');
     const password = formData.get('password');
+    const password2 = formData.get('password2');
 
-    const userLoginData = {
-      username,
-      password,
-    };
+    if (password !== password2) {
+      setError('Passwords do not match');
+    } else {
+      setError('');
+      const userRegistrationData = {
+        username,
+        firstName,
+        lastName,
+        password,
+      };
+  
+      createUser(userRegistrationData);
+    }
 
-    loginUser(userLoginData);
   };
 
   return (
-    <Container component="main" maxWidth="xs" bgcolor="0087ac">
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
@@ -61,7 +75,7 @@ const UserLoginForm = () => {
           <LockIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Login
+          Register
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -75,8 +89,29 @@ const UserLoginForm = () => {
             <TextFieldComponent
               defaultValue={''}
               required={true}
+              label={'First Name'}
+              name={'email'}
+              type={'text'}
+            />
+            <TextFieldComponent
+              defaultValue={''}
+              required={true}
+              label={'Last Name'}
+              name={'picture'}
+              type={'text'}
+            />
+            <TextFieldComponent
+              defaultValue={''}
+              required={true}
               label={'Password'}
               name={'password'}
+              type={'password'}
+            />
+            <TextFieldComponent
+              defaultValue={''}
+              required={true}
+              label={'Repeat Password'}
+              name={'password2'}
               type={'password'}
             />
           </Grid>
@@ -86,22 +121,13 @@ const UserLoginForm = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Login
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to="/register" style={{ color: '#000000' }}>
-                <Typography variant="body1">
-                  New to Bill Basher? Register here
-                </Typography>
-              </Link>
-            </Grid>
-          </Grid>
-          {/* {errorMessage && <Alert severity="error">{errorMessage}</Alert>} */}
+            Register
+          </Button>         
+          {error && <Alert severity="error" variant="filled">{error}</Alert>}
         </Box>
       </Box>
     </Container>
   );
 };
 
-export default UserLoginForm;
+export default UserRegistrationForm;
