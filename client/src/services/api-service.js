@@ -12,9 +12,10 @@ const api = axios.create({
 const createUser = async (data) => {
   const res = await api.post('/register', {
     username: data.username,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    password: data.password,
+    name: data.name,
+    surname: data.surname,
+    email: data.email,
+    password: data.password
   });
   return res;
 };
