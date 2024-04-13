@@ -66,7 +66,7 @@ const UserRegistrationForm = () => {
         }}
       >
         <Img
-          src="../../assests/logo_bill_basher.webp"
+          src="../../assests/BB_logo.png"
           alt="Bill Basher Logo"
           sx={{
             aspectRatio: '1.42',
