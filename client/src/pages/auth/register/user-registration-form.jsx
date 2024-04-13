@@ -20,9 +20,11 @@ const UserRegistrationForm = () => {
   const [error, setError] = React.useState('');
 
   const createUser = async (data) => {
+    console.log(data)
     const res = await ApiService.createUser(data);
+    console.log(res);
     if (!res.data.success) {
-      setError(res.data.message);
+      setError(res.data);
     } else {
       console.log('Registration is SUCCESSFULL');
       navigate('/');
@@ -34,8 +36,9 @@ const UserRegistrationForm = () => {
     const formData = new FormData(e.currentTarget);
 
     const username = formData.get('username');
-    const firstName = formData.get('firstName');
-    const lastName = formData.get('lastName');
+    const name = formData.get('name');
+    const surname = formData.get('surname');
+    const email = formData.get('email');
     const password = formData.get('password');
     const password2 = formData.get('password2');
 
@@ -45,8 +48,9 @@ const UserRegistrationForm = () => {
       setError('');
       const userRegistrationData = {
         username,
-        firstName,
-        lastName,
+        name,
+        surname,
+        email,
         password,
       };
 
@@ -94,14 +98,21 @@ const UserRegistrationForm = () => {
               defaultValue={''}
               required={true}
               label={'First Name'}
-              name={'email'}
+              name={'name'}
               type={'text'}
             />
             <TextFieldComponent
               defaultValue={''}
               required={true}
               label={'Last Name'}
-              name={'picture'}
+              name={'surname'}
+              type={'text'}
+            />
+            <TextFieldComponent
+              defaultValue={''}
+              required={true}
+              label={'Email'}
+              name={'email'}
               type={'text'}
             />
             <TextFieldComponent
