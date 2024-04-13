@@ -23,7 +23,7 @@ const UserRegistrationForm = () => {
     console.log(data)
     const res = await ApiService.createUser(data);
     console.log(res);
-    if (res.status !== 200) {
+    if (res.status !== 201) {
       setError(res.data);
     } else {
       console.log('Registration is SUCCESSFULL');
