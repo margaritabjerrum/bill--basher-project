@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import UserLoginPage from './pages/auth/user-login-page';
+import UserLoginPage from './pages/auth/login/user-login-page';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme/theme';
 
