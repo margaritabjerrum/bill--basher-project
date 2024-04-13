@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import ApiService from '../../services/api-service';
+import ApiService from '../../../services/api-service';
 import {
   Avatar,
   Alert,
@@ -19,9 +19,14 @@ const UserRegistrationForm = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState('');
 
-  const createUser = (data) => {
-    console.log(data);
-    navigate('/');
+  const createUser = async (data) => {
+    const res = await ApiService.createUser(data);
+    if (!res.data.success) {
+      setError(res.data.message);
+    } else {
+      console.log('Registration is SUCCESSFULL');
+      navigate('/');
+    }
   };
 
   const handleSubmit = (e) => {
@@ -44,10 +49,9 @@ const UserRegistrationForm = () => {
         lastName,
         password,
       };
-  
+
       createUser(userRegistrationData);
     }
-
   };
 
   return (
@@ -122,8 +126,12 @@ const UserRegistrationForm = () => {
             sx={{ mt: 3, mb: 2 }}
           >
             Register
-          </Button>         
-          {error && <Alert severity="error" variant="filled">{error}</Alert>}
+          </Button>
+          {error && (
+            <Alert severity="error" variant="filled">
+              {error}
+            </Alert>
+          )}
         </Box>
       </Box>
     </Container>

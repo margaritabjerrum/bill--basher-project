@@ -57,13 +57,11 @@ const createUser = async (data) => {
 //   return data;
 // };
 
-
-
 const ApiService = {
   createUser,
   // login,
   // updateUser,
-  
+
   // getUsers,
   // getUser,
   // getUserByUsername,
