@@ -20,11 +20,13 @@ public class UserController {
   public ResponseEntity<String> userRegistration(@RequestBody UserDAO userDAO) {
     try {
       userService.registerUser(userDAO);
-      return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
-    } catch (UserAlreadyExistsException e) {
+      return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
+    }
+    catch (UserAlreadyExistsException e) {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-    } catch (Exception e) {
-      return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

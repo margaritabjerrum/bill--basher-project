@@ -14,20 +14,22 @@ public class UserService {
     @Autowired
     private UserRep userRepository;
 
-    public void registerUser(UserDAO userDAO) {
+    public UserDAO registerUser(UserDAO userDAO) {
         try {
             userDAO.setPassword(PasswordEncoderUtil.encodePassword(userDAO.getPassword()));
             UserDAO existingUser = userRepository.findByUsernameOrEmail(userDAO.getUsername(), userDAO.getEmail());
             if (existingUser != null) {
-                throw new RuntimeException("Username or email already exists");
+                throw new UserAlreadyExistsException("Username or email already exists");
             }
 
-            userRepository.save(userDAO);
+            return userRepository.save(userDAO);
 
-        } catch (UserAlreadyExistsException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create user", e);
+        }
+        catch (UserAlreadyExistsException e) {
+            throw new UserAlreadyExistsException(e.getMessage());
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
