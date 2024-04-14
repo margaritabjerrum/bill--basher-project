@@ -18,16 +18,19 @@ import LockIcon from '@mui/icons-material/Lock';
 const UserRegistrationForm = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
 
   const createUser = async (data) => {
-    console.log(data)
-    const res = await ApiService.createUser(data);
-    console.log(res);
-    if (res.status !== 201) {
-      setError(res.data);
-    } else {
-      console.log('Registration is SUCCESSFULL');
-      navigate('/');
+    try {
+      const res = await ApiService.createUser(data);
+      if (res.status === 201) {
+        setSuccess('User created successfully');
+        navigate('/');
+      }
+    } catch (error) {
+      if (error.response.status === 409) {
+        setError(error.response.data);
+      }
     }
   };
 
@@ -141,6 +144,11 @@ const UserRegistrationForm = () => {
           {error && (
             <Alert severity="error" variant="filled">
               {error}
+            </Alert>
+          )}
+          {success && (
+            <Alert severity="success" variant="filled">
+              {success}
             </Alert>
           )}
         </Box>
