@@ -30,7 +30,7 @@ public class UserDTO {
     @NotBlank(message = "Password is required")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
             message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
-
+    private String password;
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     private String email;
@@ -42,6 +42,7 @@ public class UserDTO {
         userDTO.setName(userDAO.getName());
         userDTO.setSurname(userDAO.getSurname());
         userDTO.setUsername(userDAO.getUsername());
+        userDTO.setPassword(userDAO.getPassword());
         userDTO.setEmail(userDAO.getEmail());
         userDTO.setUserCreated(userDAO.getUserCreated());
         return userDTO;
