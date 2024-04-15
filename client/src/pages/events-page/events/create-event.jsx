@@ -69,11 +69,7 @@ const CreateEvent = () => {
             marginRight: 'auto',
           }}
         />
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{ color: 'primary.dark' }}
-        >
+        <Typography variant="h4" component="h1" sx={{ color: 'primary.dark' }}>
           Create new event
         </Typography>
         <Box
@@ -101,13 +97,22 @@ const CreateEvent = () => {
             <Button
               startIcon={<GroupAddIcon />}
               variant="contained"
-              sx={{ mt: 3, mb: 2, marginLeft: 'auto', bgcolor: 'secondary.main' }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                marginLeft: 'auto',
+                bgcolor: 'secondary.main',
+              }}
               onClick={() => setClicked(true)}
             >
               Add Event members
             </Button>
           )}
-          {clicked && <EventMembersListComponent onCheckedItemsChange={handleCheckedItemsChange} />}
+          {clicked && (
+            <EventMembersListComponent
+              onCheckedItemsChange={handleCheckedItemsChange}
+            />
+          )}
           <Button
             type="submit"
             fullWidth
@@ -121,7 +126,11 @@ const CreateEvent = () => {
           component="div"
           style={{ position: 'sticky', bottom: 0, width: '100%' }}
         >
-          <IconButton aria-label="back" sx={{ bgcolor: 'secondary.main' }} onClick={() => navigate('/events')}>
+          <IconButton
+            aria-label="back"
+            sx={{ bgcolor: 'secondary.main' }}
+            onClick={() => navigate('/events')}
+          >
             <ArrowBackIcon sx={{ color: 'primary.main' }} />
           </IconButton>
           <NavBar />

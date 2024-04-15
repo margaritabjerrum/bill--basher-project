@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
-import { List, ListItem, ListItemText, ListItemButton, Checkbox } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Checkbox,
+} from '@mui/material';
 
-const PeopleList = ['Person1', 'Person2', 'Person3', 'Person4', 'Person5', 'Person6'];
+const PeopleList = [
+  'Person1',
+  'Person2',
+  'Person3',
+  'Person4',
+  'Person5',
+  'Person6',
+];
 
 // eslint-disable-next-line react/prop-types
 function EventMembersListComponent({ onCheckedItemsChange }) {
