@@ -9,27 +9,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRep userRepository;
-    public void deleteUserById(Long id) {
 
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
     public UserDAO updateUserById(Long id, UserDAO user) {
         return userRepository.save(user);
     }
 
-    public List<UserDAO> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        List<UserDAO> userDAOList = userRepository.findAll();
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for (UserDAO userDAO : userDAOList) {
+            userDTOList.add(UserDTO.mapUserDAOToDTO(userDAO));
+        }
+        return userDTOList;
     }
-    public UserDAO findUserById(@PathVariable("id") Long id){
-        return userRepository.findById(id).get();
+
+    public UserDTO findUserById(Long id){
+        Optional<UserDAO> userDAO = userRepository.findById(id);
+        if (userDAO.isPresent()) {
+            return UserDTO.mapUserDAOToDTO(userDAO.get());
+        }
+        throw new NoSuchElementException("User not found with id: " + id);
     }
+
     public UserDAO registerUser(UserDAO userDAO) {
         try {
             userDAO.setPassword(PasswordEncoderUtil.encodePassword(userDAO.getPassword()));
