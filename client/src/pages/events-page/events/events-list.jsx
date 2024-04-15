@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Img from '../../components/layout/ui/img';
+import Img from '../../../components/layout/ui/img';
 // import { useSelector } from 'react-redux';
-import { Box, Button, Container, CssBaseline, Grid } from '@mui/material';
+import { Box, Button, Container, CssBaseline } from '@mui/material';
 import EventsListComponent from './events-list-component';
+import NavBar from '../../../components/layout/navbar/navbar';
 
-const EventsPage = () => {
+const EventsList = () => {
   const navigate = useNavigate();
 
   return (
+    <>
     <Container component="main" maxWidth="xs" sx={{ width: '100%' }}>
       <CssBaseline />
       <Box
@@ -17,6 +19,7 @@ const EventsPage = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          height: '70vh'
         }}
       >
         <Img
@@ -41,8 +44,10 @@ const EventsPage = () => {
           <EventsListComponent />
         </Box>
       </Box>
+      <NavBar />
     </Container>
+    </>
   );
 };
 
-export default EventsPage;
+export default EventsList;
