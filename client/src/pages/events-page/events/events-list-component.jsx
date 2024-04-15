@@ -4,6 +4,7 @@ import { List, ListItem, ListItemText, ListItemButton } from '@mui/material';
 const eventList = ['event1', 'event2', 'event3', 'event4', 'event5', 'event6'];
 
 function EventsListComponent() {
+  
   return (
     <List
       sx={{
