@@ -1,10 +1,7 @@
-import EventsList from './events/events-list'
+import EventsList from './events/events-list';
 
 const EventsPage = () => {
-
-  return (
-  <EventsList />
-  );
+  return <EventsList />;
 };
 
 export default EventsPage;
