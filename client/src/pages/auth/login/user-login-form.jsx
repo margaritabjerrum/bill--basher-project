@@ -19,6 +19,7 @@ const UserLoginForm = () => {
 
   const loginUser = (userLoginData) => {
     console.log(userLoginData);
+    navigate('/events');
   };
 
   const handleSubmit = (e) => {
