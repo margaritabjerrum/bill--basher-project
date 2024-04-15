@@ -19,16 +19,7 @@ public class UserService {
 
     @Autowired
     private UserRep userRepository;
-    private UserDTO mapUserDAOToDTO(UserDAO userDAO) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(userDAO.getUserId());
-        userDTO.setName(userDAO.getName());
-        userDTO.setSurname(userDAO.getSurname());
-        userDTO.setUsername(userDAO.getUsername());
-        userDTO.setEmail(userDAO.getEmail());
-        userDTO.setUserCreated(userDAO.getUserCreated());
-        return userDTO;
-    }
+
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
@@ -40,7 +31,7 @@ public class UserService {
         List<UserDAO> userDAOList = userRepository.findAll();
         List<UserDTO> userDTOList = new ArrayList<>();
         for (UserDAO userDAO : userDAOList) {
-            userDTOList.add(mapUserDAOToDTO(userDAO));
+            userDTOList.add(UserDTO.mapUserDAOToDTO(userDAO));
         }
         return userDTOList;
     }
@@ -48,10 +39,11 @@ public class UserService {
     public UserDTO findUserById(Long id){
         Optional<UserDAO> userDAO = userRepository.findById(id);
         if (userDAO.isPresent()) {
-            return mapUserDAOToDTO(userDAO.get());
+            return UserDTO.mapUserDAOToDTO(userDAO.get());
         }
         throw new NoSuchElementException("User not found with id: " + id);
     }
+
     public UserDAO registerUser(UserDAO userDAO) {
         try {
             userDAO.setPassword(PasswordEncoderUtil.encodePassword(userDAO.getPassword()));
