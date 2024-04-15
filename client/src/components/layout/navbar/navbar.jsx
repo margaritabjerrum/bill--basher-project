@@ -10,14 +10,11 @@ const NavBar = () => {
       >
         Events
       </Button>
-      <Button
-        variant="contained"
-        sx={{ mt: 3, width: '50%', borderRadius: 0 }}
-      >
+      <Button variant="contained" sx={{ mt: 3, width: '50%', borderRadius: 0 }}>
         Account
       </Button>
     </Box>
-  )
-}
+  );
+};
 
 export default NavBar;
