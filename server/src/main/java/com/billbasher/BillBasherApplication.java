@@ -18,22 +18,4 @@ public class BillBasherApplication{
         SpringApplication.run(BillBasherApplication.class, args);
     }
 
-//    @Override
-//    public void run(String... args) {
-//        // Create a user DTO with sample data
-//        UserDTO userDTO = new UserDTO();
-//        userDTO.setName("Renats");
-//        userDTO.setSurname("Junusovs");
-//        userDTO.setUsername("gnarlyken");
-//        userDTO.setPassword("Hello4432");
-//        userDTO.setEmail("renat@example.com");
-//
-//        // Register the user
-//        try {
-//            userService.registerUser(userDTO);
-//            System.out.println("User registered successfully!");
-//        } catch (IllegalArgumentException e) {
-//            System.err.println("Failed to register user: " + e.getMessage());
-//        }
-//    }
 }

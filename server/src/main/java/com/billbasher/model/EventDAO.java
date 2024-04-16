@@ -1,5 +1,6 @@
 package com.billbasher.model;
 
+import com.billbasher.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

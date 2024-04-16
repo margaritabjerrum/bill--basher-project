@@ -32,10 +32,12 @@ public class EventService {
     }
 
     public List<EventDAO> getAllEvents() {
+
         return eventRepository.findAll();
     }
 
     public EventDAO createEvent(EventDAO event) {
+
         return eventRepository.save(event);
     }
 }

@@ -27,29 +27,15 @@ public class UserEventController {
         }
     }
 
-//    @DeleteMapping("/api/v1/user-event/remove/{userId}/{eventId}")
-//    public ResponseEntity<String> removeUserFromEvent(@PathVariable Long userId, @PathVariable Long eventId) {
-//        try {
-//            userEventService.removeUserFromEvent(userId, eventId);
-//            return ResponseEntity.ok("User successfully removed from event.");
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing user from event.");
-//        }
-//    }
-
-//    @DeleteMapping("/api/v1/user-event/remove")
-//    public ResponseEntity<String> removeUserFromEvent(@RequestParam Long userId, @RequestParam Long eventId) {
-//        try {
-//            userEventService.removeUserFromEvent(userId, eventId);
-//            return ResponseEntity.ok("User successfully removed from event.");
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing user from event.");
-//        }
-//    }
-
-
+    @DeleteMapping("/api/v1/user-event/remove/{userId}/{eventId}")
+    public ResponseEntity<String> removeUserFromEvent(@PathVariable Long userId, @PathVariable Long eventId) {
+        try {
+            userEventService.removeUserFromEvent(userId, eventId);
+            return ResponseEntity.ok("User successfully removed from event.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing user from event.");
+        }
+    }
 }
