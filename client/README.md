@@ -1,8 +1,29 @@
-# React + Vite
+# React CRUD App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## System requirements
+[Node.js](https://nodejs.org/en/) v16 or later
 
-Currently, two official plugins are available:
+To view application, you must launch server and client apps.
+Make sure you launch server application first and client application second.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Launching Client application
+
+<div style="padding-left: 40px">
+
+### Installation
+Open terminal in __./client__ folder and run 
+```
+npm install
+```
+
+### Launch for development
+Open terminal in __./client__ folder and run 
+```
+npm run dev
+```
+
+### Launch for production
+```
+npm run build
+```
+</div>
