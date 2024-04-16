@@ -18,41 +18,41 @@ public class BillBasherApplication {
         SpringApplication.run(BillBasherApplication.class, args);
     }
 }
-
-@Component
-class UserRegistrationRunner implements CommandLineRunner {
-
-    private final UserService userService;
-
-    @Autowired
-    public UserRegistrationRunner(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Override
-    public void run(String... args) {
-        // Create a user DTO with sample data
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("Naruto");
-        userDTO.setSurname("Uzumaki");
-        userDTO.setUsername("nrsd");
-        userDTO.setPassword("Hello4432");
-        userDTO.setEmail("hytdf@example.com");
-
-        // Convert UserDTO to UserDAO
-        UserDAO userDAO = new UserDAO();
-        userDAO.setName(userDTO.getName());
-        userDAO.setSurname(userDTO.getSurname());
-        userDAO.setUsername(userDTO.getUsername());
-        userDAO.setPassword(userDTO.getPassword());
-        userDAO.setEmail(userDTO.getEmail());
-
-        // Register the user
-        try {
-            userService.registerUser(userDAO); // Pass UserDAO instead of UserDTO
-            System.out.println("User registered successfully!");
-        } catch (IllegalArgumentException e) {
-            System.err.println("Failed to register user: " + e.getMessage());
-        }
-    }
-}
+//
+//@Component
+//class UserRegistrationRunner implements CommandLineRunner {
+//
+//    private final UserService userService;
+//
+//    @Autowired
+//    public UserRegistrationRunner(UserService userService) {
+//        this.userService = userService;
+//    }
+//
+//    @Override
+//    public void run(String... args) {
+//        // Create a user DTO with sample data
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setName("Ruta");
+//        userDTO.setSurname("Kolon");
+//        userDTO.setUsername("rukolon");
+//        userDTO.setPassword("fefF423dsa");
+//        userDTO.setEmail("rttrg@example.com");
+//
+//        // Convert UserDTO to UserDAO
+//        UserDAO userDAO = new UserDAO();
+//        userDAO.setName(userDTO.getName());
+//        userDAO.setSurname(userDTO.getSurname());
+//        userDAO.setUsername(userDTO.getUsername());
+//        userDAO.setPassword(userDTO.getPassword());
+//        userDAO.setEmail(userDTO.getEmail());
+//
+//        // Register the user
+//        try {
+//            userService.registerUser(userDAO); // Pass UserDAO instead of UserDTO
+//            System.out.println("User registered successfully!");
+//        } catch (IllegalArgumentException e) {
+//            System.err.println("Failed to register user: " + e.getMessage());
+//        }
+//    }
+//}
