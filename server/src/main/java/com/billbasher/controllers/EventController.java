@@ -1,4 +1,5 @@
 package com.billbasher.controllers;
+
 import com.billbasher.model.EventDAO;
 import com.billbasher.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,6 @@ public class EventController {
         EventDAO createdEvent = eventService.createEvent(event);
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
+
 
 }

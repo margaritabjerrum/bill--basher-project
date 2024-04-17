@@ -1,6 +1,6 @@
 package com.billbasher.model;
 
-import com.billbasher.dto.UserDTO;
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +23,12 @@ public class EventDAO {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private UserDAO userId;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExpenseDAO> expenses;
+
     private Boolean eventActive;
     private String eventName;
     private LocalDateTime eventCreated = LocalDateTime.now();
 }
+

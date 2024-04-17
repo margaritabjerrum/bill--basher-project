@@ -20,7 +20,7 @@ public class ExpenseDAO {
     private Long expenseId;
     @ManyToOne
     @JoinColumn(name = "eventId", referencedColumnName = "eventId")
-    private EventDAO eventId;
+    private EventDAO event;
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private UserDAO userId;
