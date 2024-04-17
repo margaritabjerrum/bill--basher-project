@@ -19,6 +19,7 @@ public class UserDTO {
     private String surname;
     private String username;
     private String email;
+    private Boolean isActive;
     private LocalDateTime userCreated = LocalDateTime.now();
 
     public static UserDTO mapUserDAOToDTO(UserDAO userDAO) {
@@ -28,6 +29,7 @@ public class UserDTO {
         userDTO.setSurname(userDAO.getSurname());
         userDTO.setUsername(userDAO.getUsername());
         userDTO.setEmail(userDAO.getEmail());
+        userDTO.setIsActive(userDAO.getIsActive());
         userDTO.setUserCreated(userDAO.getUserCreated());
         return userDTO;
     }

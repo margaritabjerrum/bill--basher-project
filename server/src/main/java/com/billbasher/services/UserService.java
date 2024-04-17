@@ -95,4 +95,25 @@ public class UserService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public UserDAO deactivateUser(Long userId) {
+        Optional<UserDAO> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            UserDAO user = userOptional.get();
+            user.setIsActive(false);
+            return userRepository.save(user);
+        } else {
+            throw new NoSuchElementException("User not found with id: " + userId);
+        }
+    }
+
+    public List<UserDTO> getAllActiveUsers() {
+        List<UserDAO> activeUsersDAO = userRepository.findActiveUsers();
+        List<UserDTO> activeUsersDTO = new ArrayList<>();
+        for (UserDAO userDAO : activeUsersDAO) {
+            activeUsersDTO.add(UserDTO.mapUserDAOToDTO(userDAO));
+        }
+        return activeUsersDTO;
+    }
+
 }

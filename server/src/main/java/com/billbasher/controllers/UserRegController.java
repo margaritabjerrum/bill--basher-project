@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 
-public class UserRegController {
+public class  UserRegController {
     @Autowired
     private UserService userService;
     @PostMapping("/api/v1/register")
