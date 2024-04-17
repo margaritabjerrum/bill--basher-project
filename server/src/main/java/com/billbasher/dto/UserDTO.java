@@ -34,6 +34,7 @@ public class UserDTO {
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     private String email;
+    private Boolean isActive;
     private LocalDateTime userCreated = LocalDateTime.now();
 
     public static UserDTO mapUserDAOToDTO(UserDAO userDAO) {
@@ -44,6 +45,7 @@ public class UserDTO {
         userDTO.setUsername(userDAO.getUsername());
         userDTO.setPassword(userDAO.getPassword());
         userDTO.setEmail(userDAO.getEmail());
+        userDTO.setIsActive(userDAO.getIsActive());
         userDTO.setUserCreated(userDAO.getUserCreated());
         return userDTO;
     }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 
-public class UserRegController {
+public class  UserRegController {
     @Autowired
     private UserService userService;
     @PostMapping("/api/v1/register")
