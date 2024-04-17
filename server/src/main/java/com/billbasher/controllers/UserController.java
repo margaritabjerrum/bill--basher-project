@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class UserController {
@@ -42,5 +43,27 @@ public class UserController {
     }
     return new ResponseEntity<>((Object) users, HttpStatus.OK);
   }
+
+  @PutMapping("/api/v1/users/deactivate/{id}")
+  public ResponseEntity<UserDTO> deactivateUserById(@PathVariable("id") Long id) {
+    try {
+      UserDAO deactivatedUser = userService.deactivateUser(id);
+      UserDTO deactivatedUserDTO = UserDTO.mapUserDAOToDTO(deactivatedUser);
+      return ResponseEntity.ok(deactivatedUserDTO);
+    } catch (NoSuchElementException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @GetMapping("/api/v1/users/getAllActiveUsers")
+  public ResponseEntity<List<UserDTO> > getAllActiveUsers() {
+    List<UserDTO> activeUsers = userService.getAllActiveUsers();
+    if (activeUsers.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(activeUsers);
+  }
 }
+
+
 

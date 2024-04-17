@@ -20,6 +20,7 @@ public class UserDAO {
     private String username;
     private String password;
     private String email;
+    private Boolean isActive = true;
     private LocalDateTime userCreated = LocalDateTime.now();
 
 }
