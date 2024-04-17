@@ -19,4 +19,6 @@ public interface UserRep extends JpaRepository<UserDAO, Long> {
 
     @Query("SELECT u FROM UserDAO u WHERE u.isActive = true")
     List<UserDAO> findActiveUsers();
+
+
 }
