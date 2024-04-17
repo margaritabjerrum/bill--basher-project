@@ -17,6 +17,7 @@ public class EventService {
     private EventRep eventRepository;
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
+
         return eventRepository.findById(id).get();
 
     }
