@@ -16,6 +16,9 @@ public class EventService {
     @Autowired
     private EventRep eventRepository;
 
+    @Autowired
+    private ExpenseService expenseService;
+
     public EventDAO findEventById(@PathVariable("id") Long id) {
         return eventRepository.findById(id).get();
 
@@ -27,8 +30,13 @@ public class EventService {
     }
 
     public void deleteEventById(Long id) {
-
-        eventRepository.deleteById(id);
+        EventDAO event = findEventById(id);
+        if (event != null) {
+            // Delete all expenses associated with the event
+            expenseService.deleteExpensesByEvent(event);
+            // Then delete the event
+            eventRepository.delete(event);
+        }
     }
 
     public List<EventDAO> getAllEvents() {

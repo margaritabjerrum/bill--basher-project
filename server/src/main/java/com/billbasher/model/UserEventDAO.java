@@ -22,4 +22,5 @@ public class UserEventDAO {
     @JoinColumn(name = "event_id", referencedColumnName = "eventId")
     private EventDAO eventId;
 
+
 }

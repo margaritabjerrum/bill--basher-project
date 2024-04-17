@@ -26,11 +26,7 @@ public class EventController {
         return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/v1/events/{id}")
-    public ResponseEntity<HttpStatus> deleteEventById(@PathVariable("id") Long id) {
-        eventService.deleteEventById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+
 
     @GetMapping("/api/v1/events")
     public ResponseEntity<List<EventDAO>> getAllEvents() {
@@ -45,6 +41,12 @@ public class EventController {
     public ResponseEntity<EventDAO> createEvent(@RequestBody EventDAO event) {
         EventDAO createdEvent = eventService.createEvent(event);
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/api/v1/events/{id}")
+    public ResponseEntity<Void> deleteEventById(@PathVariable("id") Long id) {
+        eventService.deleteEventById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

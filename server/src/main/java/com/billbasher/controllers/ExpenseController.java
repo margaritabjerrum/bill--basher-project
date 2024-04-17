@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ExpenseController {
     @Autowired
@@ -18,16 +20,14 @@ public class ExpenseController {
         return new ResponseEntity<>(createdExpense, HttpStatus.CREATED);
     }
 
-
-    @DeleteMapping("/api/v1/expenses/remove/{id}")
-    public ResponseEntity<String> removeExpenseById(@PathVariable("id") Long id) {
-        try {
-            expenseService.removeExpenseById(id);
-            return ResponseEntity.ok("Expense successfully removed from event.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing Expense.");
+    @GetMapping("/api/v1/expenses")
+    public ResponseEntity<List<ExpenseDAO>> getAllExpenses() {
+        List<ExpenseDAO> expenses = expenseService.getAllExpenses();
+        if (expenses.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
+
+
 }
