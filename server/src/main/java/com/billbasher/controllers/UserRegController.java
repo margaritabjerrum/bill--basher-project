@@ -25,8 +25,7 @@ public class UserRegController {
         try {
             userService.registerUser(userDAO);
             return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
-        }
-        catch (UserAlreadyExistsException e) {
+        } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
         catch (Exception e) {
