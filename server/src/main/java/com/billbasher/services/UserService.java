@@ -24,7 +24,34 @@ public class UserService {
     }
 
     public UserDAO updateUserById(Long id, UserDAO user) {
-        return userRepository.save(user);
+        try {
+            Optional<UserDAO> userDAO = userRepository.findById(id);
+            if (userDAO.isEmpty()) {
+                throw new NoSuchElementException("User not found with id: " + id);
+            }
+
+            Optional<UserDAO> existingUserByUsername = userRepository.findByUsername(user.getUsername());
+            Optional<UserDAO> existingUserByEmail = userRepository.findByEmail(user.getEmail());
+
+            boolean usernameIsChanged = !userDAO.get().getUsername().equals(user.getUsername());
+            boolean emailIsChanged = !userDAO.get().getEmail().equals(user.getEmail());
+
+            if(
+               usernameIsChanged && existingUserByUsername.isPresent() ||
+               emailIsChanged && existingUserByEmail.isPresent()
+            ) {
+                throw new UserAlreadyExistsException("Username or email already exists");
+            }
+
+            user.setPassword(PasswordEncoderUtil.encodePassword(user.getPassword()));
+            return userRepository.save(user);
+
+        } catch (UserAlreadyExistsException e) {
+            throw new UserAlreadyExistsException(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     public List<UserDTO> getAllUsers() {
@@ -52,7 +79,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public UserDAO registerUser(UserDAO userDAO) {
+    public void registerUser(UserDAO userDAO) {
         try {
             userDAO.setPassword(PasswordEncoderUtil.encodePassword(userDAO.getPassword()));
             Optional<UserDAO> existingUser = userRepository.findByUsernameOrEmail(userDAO.getUsername(), userDAO.getEmail());
@@ -60,7 +87,7 @@ public class UserService {
                 throw new UserAlreadyExistsException("Username or email already exists");
             }
 
-            return userRepository.save(userDAO);
+            userRepository.save(userDAO);
 
         } catch (UserAlreadyExistsException e) {
             throw new UserAlreadyExistsException(e.getMessage());
