@@ -1,5 +1,11 @@
 import React from 'react';
-import { List, ListItem, ListItemText, ListItemButton } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Typography,
+} from '@mui/material';
 
 const eventList = ['event1', 'event2', 'event3', 'event4', 'event5', 'event6'];
 
@@ -23,8 +29,14 @@ function EventsListComponent() {
             borderRadius: 2,
           }}
         >
-          <ListItemButton component="a" href={`#${event}`}>
-            <ListItemText primary={event} />
+          <ListItemButton
+            component="a"
+            href={`#${event}`}
+            sx={{ my: 0, py: 0 }}
+          >
+            <ListItemText
+              primary={<Typography variant="body2">{event}</Typography>}
+            />
           </ListItemButton>
         </ListItem>
       ))}
