@@ -11,16 +11,19 @@ import {
 
 const EventMembersListComponent = ({ onCheckedItemsChange, peopleList }) => {
   console.log(peopleList);
-  
+
   const [checkedItems, setCheckedItems] = React.useState({});
-  console.log(checkedItems)
+  console.log(checkedItems);
 
   const handleToggle = (person) => {
     setCheckedItems((prev) => ({
       ...prev,
       [person.username]: !prev[person.username],
     }));
-    onCheckedItemsChange({ ...checkedItems, [person.username]: !checkedItems[person.username] });
+    onCheckedItemsChange({
+      ...checkedItems,
+      [person.username]: !checkedItems[person.username],
+    });
   };
 
   return (
@@ -49,13 +52,15 @@ const EventMembersListComponent = ({ onCheckedItemsChange, peopleList }) => {
               onChange={() => handleToggle(person)}
             />
             <ListItemText
-              primary={<Typography variant="body2">{person.username}</Typography>}
+              primary={
+                <Typography variant="body2">{person.username}</Typography>
+              }
             />
           </ListItemButton>
         </ListItem>
       ))}
     </List>
   );
-}
+};
 
 export default EventMembersListComponent;

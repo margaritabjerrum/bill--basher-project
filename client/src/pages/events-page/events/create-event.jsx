@@ -38,24 +38,24 @@ const CreateEvent = () => {
   const onClick = () => {
     setClicked(true);
     fetchData();
-  }
+  };
 
   const createEvent = async (data) => {
-    const res = ApiService.createEvent(data.userId, data.eventName)
+    const res = ApiService.createEvent(data.userId, data.eventName);
     console.log(data);
     // navigate('/event');
   };
 
-//   {eventName: '', userId: 44, checkedItems: {…}}
-// checkedItems
-// : 
-// {Jonas: true, Braske67: true, Braske99: true}
-// eventName
-// : 
-// ""
-// userId
-// : 
-// 44
+  //   {eventName: '', userId: 44, checkedItems: {…}}
+  // checkedItems
+  // :
+  // {Jonas: true, Braske67: true, Braske99: true}
+  // eventName
+  // :
+  // ""
+  // userId
+  // :
+  // 44
 
   const handleSubmit = (e) => {
     e.preventDefault();

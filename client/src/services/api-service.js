@@ -54,7 +54,7 @@ const getUserEvents = async (userId) => {
 const createEvent = async (userId, eventName) => {
   const res = await api.post('/events', {
     userId: {
-      userId: userId
+      userId: userId,
     },
     eventActive: true,
     eventName: eventName,
@@ -75,7 +75,7 @@ const ApiService = {
   getUsers,
 
   getUserEvents,
-  createEvent
+  createEvent,
   // updateUser,
 
   // getUsers,
