@@ -41,13 +41,21 @@ public class ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    public void deleteEventById(Long id) {
+    public void deleteExpenseById(Long id) {
 
         expenseRepository.deleteById(id);
     }
 
-    public List<ExpenseDAO> getAllExpenseByEventId() {
+
+    public List<ExpenseDAO> getAllExpenses() {
         return expenseRepository.findAll();
+    }
+
+    public void deleteExpensesByEvent(EventDAO event) {
+        List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
+        for (ExpenseDAO expense : expenses) {
+            expenseRepository.delete(expense);
+        }
     }
 }
 
