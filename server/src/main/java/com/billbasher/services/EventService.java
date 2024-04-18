@@ -3,6 +3,7 @@ package com.billbasher.services;
 import com.billbasher.dto.EventDTO;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.UserDAO;
+import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.UserRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class EventService {
     private EventRep eventRepository;
     @Autowired
     private UserRep userRepository;
+
+    @Autowired
+    private UserEventService userEventService;
+
     public EventDAO findEventById(@PathVariable("id") Long id) {
 
         return eventRepository.findById(id).get();
@@ -44,8 +49,15 @@ public class EventService {
     }
 
     public EventDAO createEvent(EventDAO event) {
+        EventDAO createdEvent = eventRepository.save(event);
 
-        return eventRepository.save(event);
+        UserEventDAO userEDAO = new UserEventDAO();
+        userEDAO.setEventId(createdEvent);
+        userEDAO.setUserId(event.getUserId());
+        userEDAO.setTotal(0);
+        userEventService.addUserToEvent(userEDAO);
+
+        return createdEvent;
     }
     public List<EventDTO> getEventsByUserId(Long userId) {
         Optional<UserDAO> userOptional = userRepository.findById(userId);

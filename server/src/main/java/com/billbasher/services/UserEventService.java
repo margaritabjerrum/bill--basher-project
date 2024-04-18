@@ -9,6 +9,7 @@ import com.billbasher.repository.UserRep;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,9 @@ public class UserEventService {
         this.userRep = userRep;
         this.eventRep = eventRep;
     }
-
+    public List<UserEventDAO> findUserEventsByUserId(Long userId) {
+        return userEventRep.findByUserIdUserId(userId);
+    }
     public void addUserToEvent(UserEventDAO userEventDAO) {
         Long userId = userEventDAO.getUserId().getUserId();
         Long eventId = userEventDAO.getEventId().getEventId();

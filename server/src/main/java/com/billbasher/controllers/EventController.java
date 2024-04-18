@@ -56,11 +56,6 @@ public class EventController {
     @PostMapping("/api/v1/events")
     public ResponseEntity<EventDAO> createEvent(@RequestBody EventDAO event) {
         EventDAO createdEvent = eventService.createEvent(event);
-        UserEventDAO userEDAO = new UserEventDAO();
-        userEDAO.setEventId(event);
-        userEDAO.setUserId(event.getUserId());
-        userEDAO.setTotal(0);
-        userEventService.addUserToEvent(userEDAO);
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
