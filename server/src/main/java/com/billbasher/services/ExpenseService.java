@@ -46,11 +46,10 @@ public class ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    public void deleteEventById(Long id) {
+    public void deleteExpenseById(Long id) {
 
         expenseRepository.deleteById(id);
     }
-
 
     public List<ExpenseDTO> getExpensesByUserIdAndEventId(Long userId, Long eventId) {
         Optional<UserDAO> userOptional = userRepository.findById(userId);
@@ -78,6 +77,17 @@ public class ExpenseService {
                     return expenseDTO;
                 })
                 .collect(Collectors.toList());
+    }
+  
+    public List<ExpenseDAO> getAllExpenses() {
+        return expenseRepository.findAll();
+    }
+
+    public void deleteExpensesByEvent(EventDAO event) {
+        List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
+        for (ExpenseDAO expense : expenses) {
+            expenseRepository.delete(expense);
+        }
     }
 }
 
