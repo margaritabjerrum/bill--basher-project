@@ -56,7 +56,6 @@ const CreateEvent = () => {
           flexDirection: 'column',
           alignItems: 'center',
           height: '70vh',
-          position: 'relative',
         }}
       >
         <Img
@@ -133,9 +132,9 @@ const CreateEvent = () => {
           >
             <ArrowBackIcon sx={{ color: 'primary.main' }} />
           </IconButton>
-          <NavBar />
         </Box>
       </Box>
+      <NavBar />
     </Container>
   );
 };

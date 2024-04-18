@@ -5,6 +5,7 @@ import {
   ListItemText,
   ListItemButton,
   Checkbox,
+  Typography,
 } from '@mui/material';
 
 const PeopleList = [
@@ -47,12 +48,15 @@ function EventMembersListComponent({ onCheckedItemsChange }) {
             borderRadius: 2,
           }}
         >
-          <ListItemButton component="div">
+          <ListItemButton component="div" sx={{ my: 0, py: 0 }}>
             <Checkbox
+              sx={{ m: 0, p: 0 }}
               checked={checkedItems[person] || false}
               onChange={() => handleToggle(person)}
             />
-            <ListItemText primary={person} />
+            <ListItemText
+              primary={<Typography variant="body2">{person}</Typography>}
+            />
           </ListItemButton>
         </ListItem>
       ))}
