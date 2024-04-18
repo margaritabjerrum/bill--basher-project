@@ -1,7 +1,9 @@
 package com.billbasher.controllers;
 
+import com.billbasher.dto.ExpenseDTO;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.ExpenseDAO;
+import com.billbasher.model.UserDAO;
 import com.billbasher.services.EventService;
 import com.billbasher.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +55,13 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing Expense.");
         }
     }
+    @GetMapping("/api/v1/expenses/{userId}/{eventId}")
+    public ResponseEntity<List<ExpenseDTO>> getExpensesByUserIdAndEventId(
+            @PathVariable("userId") Long userId,
+            @PathVariable("eventId") Long eventId) {
+
+        List<ExpenseDTO> expenseDTOs = expenseService.getExpensesByUserIdAndEventId(userId, eventId);
+        return new ResponseEntity<>(expenseDTOs, HttpStatus.OK);
+    }
+
 }

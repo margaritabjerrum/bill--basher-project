@@ -1,18 +1,30 @@
 package com.billbasher.controllers;
+import com.billbasher.dto.EventDTO;
 import com.billbasher.model.EventDAO;
+import com.billbasher.model.UserDAO;
+import com.billbasher.model.UserEventDAO;
+import com.billbasher.repository.EventRep;
+import com.billbasher.repository.UserRep;
 import com.billbasher.services.EventService;
+import com.billbasher.services.UserEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class EventController {
-
     @Autowired
     private EventService eventService;
+    @Autowired
+    private UserRep userRepository;
+    @Autowired
+    private EventRep eventRepository;
+    @Autowired
+    private UserEventService userEventService;
 
     @GetMapping("/api/v1/events/{id}")
     public ResponseEntity<EventDAO> findEventById(@PathVariable("id") Long id) {
@@ -44,7 +56,18 @@ public class EventController {
     @PostMapping("/api/v1/events")
     public ResponseEntity<EventDAO> createEvent(@RequestBody EventDAO event) {
         EventDAO createdEvent = eventService.createEvent(event);
+        UserEventDAO userEDAO = new UserEventDAO();
+        userEDAO.setEventId(event);
+        userEDAO.setUserId(event.getUserId());
+        userEDAO.setTotal(0);
+        userEventService.addUserToEvent(userEDAO);
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/api/v1/events/list/{userId}")
+    public ResponseEntity<List<EventDTO>> getEventsByUserId(@PathVariable("userId") Long userId) {
+        List<EventDTO> eventDTOs = eventService.getEventsByUserId(userId);
+        return new ResponseEntity<>(eventDTOs, HttpStatus.OK);
     }
 
 }
