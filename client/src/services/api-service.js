@@ -20,13 +20,13 @@ const createUser = async (data) => {
   return res;
 };
 
-// const login = async (data) => {
-//     const res = await api.post('/login', {
-//       username: data.username,
-//       password: data.password,
-//     });
-//   return res;
-// }
+const login = async (data) => {
+    const res = await api.post('/login', {
+      usernameOrEmail: data.usernameOrEmail,
+      password: data.password,
+    });
+  return res;
+}
 
 // const updateUser = async (data) => {
 //   const res = await api.post(`updateuser`, {
@@ -60,7 +60,7 @@ const createUser = async (data) => {
 
 const ApiService = {
   createUser,
-  // login,
+  login,
   // updateUser,
 
   // getUsers,
