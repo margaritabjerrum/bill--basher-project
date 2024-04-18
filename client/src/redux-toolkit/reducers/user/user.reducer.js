@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   token: '',
-  user: null
+  user: null,
 };
 
 const userSlice = createSlice({
@@ -13,8 +13,8 @@ const userSlice = createSlice({
       const { token, user } = action.payload;
       state.token = token;
       state.user = user;
-    }
-  }
+    },
+  },
 });
 
 export const { addUser } = userSlice.actions;

@@ -21,12 +21,12 @@ const createUser = async (data) => {
 };
 
 const login = async (data) => {
-    const res = await api.post('/login', {
-      usernameOrEmail: data.usernameOrEmail,
-      password: data.password,
-    });
+  const res = await api.post('/login', {
+    usernameOrEmail: data.usernameOrEmail,
+    password: data.password,
+  });
   return res;
-}
+};
 
 // const updateUser = async (data) => {
 //   const res = await api.post(`updateuser`, {

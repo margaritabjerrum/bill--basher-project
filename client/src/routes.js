@@ -3,6 +3,7 @@ import UserLoginPage from './pages/auth/user-login-page';
 import UserRegistrationPage from './pages/auth/register/user-registration-page';
 import EventsPage from './pages/events/events-page';
 import CreateEvent from './pages/events-page/events/create-event';
+import UserAccountPage from './pages/user/user-account-page';
 
 export const AppRouter = () => {
   const elements = useRoutes([
@@ -21,6 +22,10 @@ export const AppRouter = () => {
     {
       path: '/createevent',
       element: <CreateEvent />,
+    },
+    {
+      path: '/useraccount',
+      element: <UserAccountPage />,
     },
   ]);
 

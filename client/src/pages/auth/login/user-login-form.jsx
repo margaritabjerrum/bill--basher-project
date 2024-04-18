@@ -26,17 +26,16 @@ const UserLoginForm = () => {
     try {
       const res = await ApiService.login(userLoginData);
       if (res.status === 200) {
-        localStorage.setItem("userSecret", res.data.token);
+        localStorage.setItem('userSecret', res.data.token);
         dispatch(addUser(res.data));
         navigate('/events');
-        
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        setError(error.response.data);
+      }
     }
-  } catch (error) {
-    if (error.response.status === 401) {
-      setError(error.response.data);
-    }
-  }
-}
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,7 +113,11 @@ const UserLoginForm = () => {
               </Link>
             </Grid>
           </Grid>
-          {error && <Alert severity="error" variant="filled">{error}</Alert>}
+          {error && (
+            <Alert severity="error" variant="filled">
+              {error}
+            </Alert>
+          )}
         </Box>
       </Box>
     </Container>
