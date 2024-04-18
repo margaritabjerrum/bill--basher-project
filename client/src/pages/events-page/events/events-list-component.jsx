@@ -6,42 +6,65 @@ import {
   ListItemButton,
   Typography,
 } from '@mui/material';
+import ApiService from '../../../services/api-service';
+import { useSelector } from 'react-redux';
 
-const eventList = ['event1', 'event2', 'event3', 'event4', 'event5', 'event6'];
+const EventsListComponent = () => {
+  const user = useSelector((state) => state.user.user);
+  const userId = user.userId;
+  const [eventsList, setEventsList] = React.useState([]);
 
-function EventsListComponent() {
+  React.useEffect(() => {
+    (async () => {
+      const eventsList = await ApiService.getUserEvents(userId);
+      setEventsList(eventsList.data);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <List
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      {eventList.map((event, index) => (
-        <ListItem
-          key={index}
-          disablePadding
+    <>
+      {eventsList && (
+        <Typography variant="h5" component="h2">
+          You do not have any events yet
+        </Typography>
+      )}
+      {eventsList && (
+        <List
           sx={{
-            my: 0.5,
-            bgcolor: 'secondary.main',
-            width: '100%',
-            borderRadius: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <ListItemButton
-            component="a"
-            href={`#${event}`}
-            sx={{ my: 0, py: 0 }}
-          >
-            <ListItemText
-              primary={<Typography variant="body2">{event}</Typography>}
-            />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+          {eventsList.map((event, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              sx={{
+                my: 0.5,
+                bgcolor: 'secondary.main',
+                width: '100%',
+                borderRadius: 2,
+              }}
+            >
+              <ListItemButton
+                component="a"
+                href={`#${event.eventName}`}
+                sx={{ my: 0, py: 0 }}
+              >
+                <ListItemText
+                  primary={
+                    <Typography variant="body2">{event.eventName}</Typography>
+                  }
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </>
   );
-}
+};
 
 export default EventsListComponent;

@@ -14,7 +14,7 @@ import TextFieldComponent from '../../../components/layout/ui/text-field-compone
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import EventMembersListComponent from './event-members-list-component copy';
+import EventMembersListComponent from './event-members-list-component';
 
 const CreateEvent = () => {
   const navigate = useNavigate();

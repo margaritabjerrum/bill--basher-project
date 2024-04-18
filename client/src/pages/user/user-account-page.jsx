@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const UserAccountPage = () => {
   const user = useSelector((state) => state.user.user);
-
+  console.log(user);
   return (
     <>
       <Container component="main" maxWidth="xs" sx={{ width: '100%' }}>

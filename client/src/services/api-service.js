@@ -46,10 +46,10 @@ const login = async (data) => {
 //   return data;
 // };
 
-// const getUser = async (id) => {
-//   const { data } = await api.get(`/users/${id}`);
-//   return data;
-// };
+const getUserEvents = async (userId) => {
+  const data = await api.get(`events/list/${userId}`);
+  return data;
+};
 
 // const getUserByUsername = async (username) => {
 //   const { data } = await api.post(`/username`, {
@@ -61,6 +61,8 @@ const login = async (data) => {
 const ApiService = {
   createUser,
   login,
+
+  getUserEvents,
   // updateUser,
 
   // getUsers,
