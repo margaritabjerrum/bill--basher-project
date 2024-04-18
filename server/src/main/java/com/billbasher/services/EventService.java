@@ -1,6 +1,9 @@
 package com.billbasher.services;
 
+import com.billbasher.dto.EventDTO;
 import com.billbasher.model.EventDAO;
+import com.billbasher.model.UserDAO;
+import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.UserEventRep;
 import com.billbasher.repository.UserRep;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -17,6 +22,11 @@ public class EventService {
 
     @Autowired
     private EventRep eventRepository;
+    @Autowired
+    private UserRep userRepository;
+
+    @Autowired
+    private UserEventService userEventService;
 
     @Autowired
     private ExpenseService expenseService;
@@ -70,7 +80,27 @@ public class EventService {
     }
 
     public EventDAO createEvent(EventDAO event) {
+        EventDAO createdEvent = eventRepository.save(event);
 
-        return eventRepository.save(event);
+        UserEventDAO userEDAO = new UserEventDAO();
+        userEDAO.setEventId(createdEvent);
+        userEDAO.setUserId(event.getUserId());
+        userEDAO.setTotal(0);
+        userEventService.addUserToEvent(userEDAO);
+
+        return createdEvent;
+    }
+    public List<EventDTO> getEventsByUserId(Long userId) {
+        Optional<UserDAO> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("User with ID " + userId + " not found.");
+        }
+        UserDAO user = userOptional.get();
+
+        List<EventDAO> events = eventRepository.findByUserId(user);
+
+        return events.stream()
+                .map(event -> new EventDTO(event.getEventId(), event.getEventName()))
+                .collect(Collectors.toList());
     }
 }
