@@ -21,6 +21,7 @@ public class UserEventDAO {
     @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "eventId")
     private EventDAO eventId;
+    private double total;
 
 
 }

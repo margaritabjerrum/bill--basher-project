@@ -1,5 +1,6 @@
 package com.billbasher.repository;
 
+import com.billbasher.model.EventDAO;
 import com.billbasher.model.ExpenseDAO;
 import com.billbasher.model.EventDAO;
 import org.springframework.data.jpa.repository.JpaRepository;

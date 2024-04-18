@@ -1,6 +1,8 @@
 package com.billbasher.controllers;
 
+import com.billbasher.model.EventDAO;
 import com.billbasher.model.ExpenseDAO;
+import com.billbasher.services.EventService;
 import com.billbasher.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ import java.util.List;
 public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
+    @Autowired
+    private EventService eventService;
 
     @PostMapping("/api/v1/expenses")
     public ResponseEntity<ExpenseDAO> createExpense(@RequestBody ExpenseDAO expense) {
@@ -25,9 +29,38 @@ public class ExpenseController {
         List<ExpenseDAO> expenses = expenseService.getAllExpenses();
         if (expenses.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+          
+    @GetMapping("/api/v1/expenses/{id}")
+    public ResponseEntity<ExpenseDAO> findExpenseById(@PathVariable("id") Long id) {
+        ExpenseDAO expense = expenseService.findExpenseById(id);
+        return new ResponseEntity<>(expense, HttpStatus.OK);
+    }
+    @PutMapping("/api/v1/expenses/{id}")
+    public ResponseEntity<ExpenseDAO> updateExpenseById(@PathVariable("id") Long id, @RequestBody ExpenseDAO expense) {
+        ExpenseDAO updateExpense = expenseService.updateExpenseById(id, expense);
+        return new ResponseEntity<>(updateExpense, HttpStatus.OK);
+    }
+    @GetMapping("/api/v1/expenses/event/{id}")
+    public ResponseEntity<List<ExpenseDAO>> findExpensesByEventId(@PathVariable Long id) {
+        EventDAO event = eventService.findEventById(id);
+        List<ExpenseDAO> expenses = expenseService.findExpensesByEventId(event);
+        if (expenses.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
+    @DeleteMapping("/api/v1/expenses/remove/{id}")
+    public ResponseEntity<String> removeExpenseById(@PathVariable("id") Long id) {
+        try {
+            expenseService.removeExpenseById(id);
+            return ResponseEntity.ok("Expense successfully removed from event.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing Expense.");
 
+        }
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
 
 }

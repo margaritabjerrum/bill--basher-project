@@ -29,6 +29,7 @@ public class EventService {
 
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
+
         return eventRepository.findById(id).get();
 
     }
