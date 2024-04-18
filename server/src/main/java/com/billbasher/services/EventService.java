@@ -49,16 +49,23 @@ public class EventService {
         if (event != null) {
             // Check if the event is finished
             if (!event.getEventActive()) {
-                // Delete all expenses associated with the event
-                expenseService.deleteExpensesByEvent(event);
-                // Then delete the event
-                eventRepository.delete(event);
+                // Check if there is only one user associated with the event
+                if (userEventRepository.countByEventId(event) <= 1) {
+                    // Delete all expenses associated with the event
+                    expenseService.deleteExpensesByEvent(event);
+                    // Delete the event
+                    eventRepository.delete(event);
+                } else {
+                    // Event cannot be deleted
+                    throw new IllegalStateException("Event cannot be deleted as it is not finished or has more than one user.");
+                }
             } else {
                 // Event cannot be deleted
                 throw new IllegalStateException("Event cannot be deleted as it is not finished or has more than one user.");
             }
         }
     }
+
 
 
 

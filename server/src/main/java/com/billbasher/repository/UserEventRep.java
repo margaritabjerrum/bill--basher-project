@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserEventRep extends JpaRepository<UserEventDAO, Long> {
     Optional<UserEventDAO> findByUserId_UserIdAndEventId_EventId(Long userId, Long eventId);
+    long countByEventId(EventDAO event);
 
 
 }
