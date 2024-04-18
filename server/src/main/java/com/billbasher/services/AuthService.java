@@ -1,6 +1,7 @@
 package com.billbasher.services;
 
 import com.billbasher.dto.UserDTO;
+import com.billbasher.exception.UserNotActiveException;
 import com.billbasher.model.UserDAO;
 import com.billbasher.pswrdhashing.AuthResponse;
 import com.billbasher.pswrdhashing.JwtUtil;
@@ -27,6 +28,10 @@ public class AuthService {
         Optional<UserDAO> userOptional = userService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         if (userOptional.isPresent()) {
             UserDAO user = userOptional.get();
+            // Check if user is active
+            if (!user.getIsActive()) {
+                throw new UserNotActiveException("User is not active");
+            }
             // Verify password
             if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
                 // Generate JWT token
