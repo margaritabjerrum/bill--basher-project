@@ -53,4 +53,14 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing Expense.");
         }
     }
+
+
+    @GetMapping("/api/v1/expenses")
+    public ResponseEntity<List<ExpenseDAO>> getAllExpenses() {
+        List<ExpenseDAO> expenses = expenseService.getAllExpenses();
+        if (expenses.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
 }

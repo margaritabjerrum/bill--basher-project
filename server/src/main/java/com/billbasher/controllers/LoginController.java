@@ -16,7 +16,7 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("api/v1/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
         if (authResponse != null) {
