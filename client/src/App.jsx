@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme/theme';
 import EventsPage from './pages/events-page/events-page';
 import CreateEvent from './pages/events-page/events/create-event';
+import UserAccountPage from './pages/user/user-account-page';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/register" element={<UserRegistrationPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/createevent" element={<CreateEvent />} />
+            <Route path="/useraccount" element={<UserAccountPage />} />
           </Routes>
         </BrowserRouter>
       </CssBaseline>

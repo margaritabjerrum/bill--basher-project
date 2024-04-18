@@ -124,16 +124,15 @@ const CreateEvent = () => {
         <Box
           component="div"
           style={{ position: 'sticky', bottom: 0, width: '100%' }}
-        >
-          <IconButton
-            aria-label="back"
-            sx={{ bgcolor: 'secondary.main' }}
-            onClick={() => navigate('/events')}
-          >
-            <ArrowBackIcon sx={{ color: 'primary.main' }} />
-          </IconButton>
-        </Box>
+        ></Box>
       </Box>
+      <IconButton
+        aria-label="back"
+        sx={{ bgcolor: 'secondary.main' }}
+        onClick={() => navigate('/events')}
+      >
+        <ArrowBackIcon sx={{ color: 'primary.main' }} />
+      </IconButton>
       <NavBar />
     </Container>
   );

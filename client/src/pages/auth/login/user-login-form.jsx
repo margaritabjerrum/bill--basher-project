@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Img from '../../../components/layout/ui/img';
-// import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Avatar,
+  Alert,
   Box,
   Button,
   Container,
@@ -13,24 +14,38 @@ import {
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import TextFieldComponent from '../../../components/layout/ui/text-field-component';
+import ApiService from '../../../services/api-service';
+import { addUser } from '../../../redux-toolkit/reducers/user/user.reducer';
 
 const UserLoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = React.useState('');
 
-  const loginUser = (userLoginData) => {
-    console.log(userLoginData);
-    navigate('/events');
+  const loginUser = async (userLoginData) => {
+    try {
+      const res = await ApiService.login(userLoginData);
+      if (res.status === 200) {
+        localStorage.setItem('userSecret', res.data.token);
+        dispatch(addUser(res.data));
+        navigate('/events');
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        setError(error.response.data);
+      }
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const username = formData.get('username');
+    const usernameOrEmail = formData.get('username');
     const password = formData.get('password');
 
     const userLoginData = {
-      username,
+      usernameOrEmail,
       password,
     };
 
@@ -98,7 +113,11 @@ const UserLoginForm = () => {
               </Link>
             </Grid>
           </Grid>
-          {/* {errorMessage && <Alert severity="error">{errorMessage}</Alert>} */}
+          {error && (
+            <Alert severity="error" variant="filled">
+              {error}
+            </Alert>
+          )}
         </Box>
       </Box>
     </Container>
