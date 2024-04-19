@@ -118,7 +118,7 @@ class EventServiceTest {
     }
     //Deletion tests
     @Test
-    public void testDeleteEventById_Success() {
+    public void testDeleteEventById() {
         Long eventId = 1L;
         EventDAO event = new EventDAO();
         event.setEventId(eventId);
@@ -133,7 +133,7 @@ class EventServiceTest {
     }
 
     @Test
-    public void testDeleteEventById_NotFinished() {
+    public void testDeleteEventByIdNotFinished() {
         Long eventId = 1L;
         EventDAO event = new EventDAO();
         event.setEventId(eventId);
@@ -150,7 +150,7 @@ class EventServiceTest {
     }
 
     @Test
-    public void testDeleteEventById_MoreThanOneUser() {
+    public void testDeleteEventByIdMoreThanOneUser() {
         Long eventId = 1L;
         EventDAO event = new EventDAO();
         event.setEventId(eventId);
@@ -168,7 +168,7 @@ class EventServiceTest {
     }
 
     @Test
-    public void testDeleteEventById_EventNotFound() {
+    public void testDeleteEventByIdEventNotFound() {
         Long eventId = 1L;
 
         when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
