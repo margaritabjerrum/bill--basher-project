@@ -10,10 +10,7 @@ import {
 } from '@mui/material';
 
 const EventMembersListComponent = ({ onCheckedItemsChange, peopleList }) => {
-  console.log(peopleList);
-
   const [checkedItems, setCheckedItems] = React.useState({});
-  console.log(checkedItems);
 
   const handleToggle = (person) => {
     setCheckedItems((prev) => ({

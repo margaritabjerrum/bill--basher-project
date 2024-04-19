@@ -24,7 +24,7 @@ const EventsListComponent = () => {
 
   return (
     <>
-      {eventsList && (
+      {eventsList.length === 0 && (
         <Typography variant="h5" component="h2">
           You do not have any events yet
         </Typography>
