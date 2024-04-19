@@ -7,8 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import ApiService from '../../services/api-service';
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
 const ExpenseListComponent = ({ eventId }) => {
   const [expenseList, setEventsList] = React.useState([]);
 
@@ -70,6 +70,11 @@ const ExpenseListComponent = ({ eventId }) => {
       )}
     </>
   );
+};
+
+ExpenseListComponent.propTypes = {
+  defaultValue: PropTypes.string,
+  eventId: PropTypes.string.isRequired,
 };
 
 export default ExpenseListComponent;

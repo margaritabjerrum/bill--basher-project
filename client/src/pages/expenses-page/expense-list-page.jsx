@@ -1,7 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
-import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  Typography,
+} from '@mui/material';
 import ExpenseListComponent from './expense-list-component';
 import NavBar from '../../components/layout/navbar/navbar';
 import LogoComponent from '../../components/logo/logo-component';
@@ -21,9 +27,8 @@ const ExpenseListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClick = () => {
-    // navigate('/createevent');
-    console.log('clicked');
+  const onClickViewMembers = () => {
+    console.log('clicked: onClickViewMembers');
   };
 
   return (
@@ -51,23 +56,23 @@ const ExpenseListPage = () => {
             <Button
               variant="contained"
               sx={{ mt: 3, mb: 2, width: '50%' }}
-              onClick={onClick}
+              onClick={onClickViewMembers}
             >
               View Members
             </Button>
             <Button
               variant="contained"
               sx={{ mt: 3, mb: 2, width: '50%', ml: 2 }}
-              onClick={onClick}
+              onClick={() => navigate(`/createexpense/${eventName}/${eventId}`)}
             >
               Add new Expense
             </Button>
           </Box>
+
           <Box sx={{ width: '100%', height: '100%' }}>
             <ExpenseListComponent eventId={eventId} />
           </Box>
         </Box>
-
         <NavBar />
       </Container>
     </>

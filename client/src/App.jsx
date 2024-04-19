@@ -8,6 +8,7 @@ import EventsPage from './pages/events-page/events-page';
 import CreateEvent from './pages/events-page/events/create-event';
 import UserAccountPage from './pages/user/user-account-page';
 import ExpenseListPage from './pages/expenses-page/expense-list-page';
+import CreateExpense from './pages/expenses-page/create-expense';
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
             <Route path="/createevent" element={<CreateEvent />} />
             <Route path="/useraccount" element={<UserAccountPage />} />
             <Route path="/event/:eventId" element={<ExpenseListPage />} />
+            <Route
+              path="/createexpense/:eventName/:eventId"
+              element={<CreateExpense />}
+            />
           </Routes>
         </BrowserRouter>
       </CssBaseline>

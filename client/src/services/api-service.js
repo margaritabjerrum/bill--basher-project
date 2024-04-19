@@ -85,6 +85,20 @@ const getExpensesPerEvent = async (eventId) => {
   return data;
 };
 
+const createExpense = async (data) => {
+  const res = await api.post('/expenses', {
+    userId: {
+      userId: data.userId,
+    },
+    eventId: {
+      eventId: data.eventId,
+    },
+    expenseReason: data.expenseName,
+    amountSpent: data.amountSpent,
+  });
+  return res;
+};
+
 const ApiService = {
   createUser,
   login,
@@ -95,6 +109,7 @@ const ApiService = {
   addMembersToEvent,
   getEventById,
   getExpensesPerEvent,
+  createExpense,
   // updateUser,
 };
 
