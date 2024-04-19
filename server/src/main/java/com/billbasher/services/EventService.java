@@ -32,8 +32,6 @@ public class EventService {
     private ExpenseService expenseService;
     @Autowired
     private UserEventRep userEventRepository;
-    @Autowired
-    private UserRep userRepository;
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
 
