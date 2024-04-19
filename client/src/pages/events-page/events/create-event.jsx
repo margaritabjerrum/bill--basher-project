@@ -46,18 +46,7 @@ const CreateEvent = () => {
     // navigate('/event');
   };
 
-  //   {eventName: '', userId: 44, checkedItems: {…}}
-  // checkedItems
-  // :
-  // {Jonas: true, Braske67: true, Braske99: true}
-  // eventName
-  // :
-  // ""
-  // userId
-  // :
-  // 44
-
-  const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
