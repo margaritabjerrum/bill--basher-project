@@ -21,15 +21,19 @@ import LogoComponent from '../../../components/logo/logo-component';
 const CreateEvent = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
+  const userId = user.userId;
+
   const [clicked, setClicked] = React.useState(false);
   const [checkedItems, setCheckedItems] = useState({});
   const [peopleList, setPeopleList] = React.useState([]);
-  const userId = user.userId;
 
   const fetchData = async () => {
     try {
       const response = await ApiService.getUsers();
-      setPeopleList(response.data);
+      const peopleListWithoutCreatorUser = response.data.filter(
+        (person) => person.userId !== userId,
+      );
+      setPeopleList(peopleListWithoutCreatorUser);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -41,9 +45,16 @@ const CreateEvent = () => {
   };
 
   const createEvent = async (data) => {
-    const res = ApiService.createEvent(data.userId, data.eventName);
-    console.log(data);
-    // navigate('/event');
+    const res = await ApiService.createEvent(data.userId, data.eventName);
+    const eventId = res.data.eventId;
+    const checkedPeople = data.checkedItems;
+    const filteredEventMemberList = peopleList.filter(
+      (person) => checkedPeople[person.username],
+    );
+    for (let i = 0; i < filteredEventMemberList.length; i += 1) {
+      let userId = filteredEventMemberList[i].userId;
+      await ApiService.addMembersToEvent(userId, eventId);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -55,7 +66,7 @@ const CreateEvent = () => {
     const eventCreationData = {
       eventName,
       userId,
-      checkedItems, // Include checked items in event creation data
+      checkedItems,
     };
 
     createEvent(eventCreationData);

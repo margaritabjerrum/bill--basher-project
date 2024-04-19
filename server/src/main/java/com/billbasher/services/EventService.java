@@ -8,6 +8,7 @@ import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.UserEventRep;
 import com.billbasher.repository.UserRep;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,41 +36,42 @@ public class EventService {
     private UserEventRep userEventRepository;
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
-
-        return eventRepository.findById(id).get();
-
+        Optional<EventDAO> eventOptional = eventRepository.findById(id);
+        if (eventOptional.isPresent()) {
+            return eventOptional.get();
+        } else {
+            throw new EntityNotFoundException("Event with id " + id + " not found");
+        }
     }
 
     public EventDAO updateEventById(Long id, EventDAO event) {
-        EventDAO existingEvent = findEventById(id);
-        if (existingEvent != null) {
-            // Update the existing event with the new data
+        Optional<EventDAO> existingEventOptional = eventRepository.findById(id);
+        if (existingEventOptional.isPresent()) {
+            EventDAO existingEvent = existingEventOptional.get();
             existingEvent.setEventName(event.getEventName());
 
             return eventRepository.save(existingEvent);
+        } else {
+            throw new EntityNotFoundException("Event with id " + id + " not found");
         }
-        return null;
     }
 
     public void deleteEventById(Long id) {
-        EventDAO event = findEventById(id);
-        if (event != null) {
-            // Check if the event is finished
+        Optional<EventDAO> eventOptional = eventRepository.findById(id);
+        if (eventOptional.isPresent()) {
+            EventDAO event = eventOptional.get();
             if (!event.getEventActive()) {
-                // Check if there is only one user associated with the event
                 if (userEventRepository.countByEventId(event) <= 1) {
-                    // Delete all expenses associated with the event
                     expenseService.deleteExpensesByEvent(event);
-                    // Delete the event
                     eventRepository.delete(event);
                 } else {
-                    // Event cannot be deleted
                     throw new IllegalStateException("Event cannot be deleted as it is not finished or has more than one user.");
                 }
             } else {
-                // Event cannot be deleted
                 throw new IllegalStateException("Event cannot be deleted as it is not finished or has more than one user.");
             }
+        } else {
+            throw new IllegalArgumentException("Event with ID " + id + " not found.");
         }
     }
 
@@ -89,6 +91,7 @@ public class EventService {
 
         return createdEvent;
     }
+
     public List<EventDTO> getEventsByUserId(Long userId) {
         Optional<UserDAO> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
