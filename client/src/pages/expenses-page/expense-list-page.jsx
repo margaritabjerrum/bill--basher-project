@@ -1,13 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
 import ExpenseListComponent from './expense-list-component';
 import NavBar from '../../components/layout/navbar/navbar';
 import LogoComponent from '../../components/logo/logo-component';
