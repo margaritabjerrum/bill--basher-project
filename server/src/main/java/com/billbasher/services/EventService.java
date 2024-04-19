@@ -101,5 +101,4 @@ public class EventService {
                 .map(event -> new EventDTO(event.getEventId(), event.getEventName(), event.getEventActive()))
                 .collect(Collectors.toList());
     }
-
 }
