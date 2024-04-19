@@ -1,6 +1,7 @@
 package com.billbasher.services;
 
 import com.billbasher.dto.EventDTO;
+import com.billbasher.dto.UserDTO;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.UserDAO;
 import com.billbasher.model.UserEventDAO;
@@ -33,7 +34,6 @@ public class EventService {
     private ExpenseService expenseService;
     @Autowired
     private UserEventRep userEventRepository;
-
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
         Optional<EventDAO> eventOptional = eventRepository.findById(id);
@@ -102,7 +102,7 @@ public class EventService {
         List<EventDAO> events = eventRepository.findByUserId(user);
 
         return events.stream()
-                .map(event -> new EventDTO(event.getEventId(), event.getEventName()))
+                .map(event -> new EventDTO(event.getEventId(), event.getEventName(), event.getEventActive()))
                 .collect(Collectors.toList());
     }
 }
