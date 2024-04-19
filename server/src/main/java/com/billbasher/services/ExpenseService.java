@@ -7,11 +7,15 @@ import com.billbasher.model.UserDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.ExpenseRep;
 import com.billbasher.repository.UserRep;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,21 +38,29 @@ public class ExpenseService {
     }
 
     public ExpenseDAO findExpenseById(@PathVariable("id") Long id) {
-        return expenseRepository.findById(id).get();
-
-    }
-    public List<ExpenseDAO> findExpensesByEventId(EventDAO  event) {
-        return expenseRepository.findByEventId(event);
+        return expenseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Expense with id " + id + " not found"));
     }
 
-    public ExpenseDAO updateExpenseById(Long id, ExpenseDAO expense) {
+    public List<ExpenseDAO> findExpensesByEventId(@NotNull @Valid EventDAO event) {
+        List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
+        if (expenses.isEmpty()) {
+            throw new NoSuchElementException("No expenses found for event with id: " + event.getEventId());
+        }
+
+        return expenses;
+    }
+
+    public ExpenseDAO updateExpenseById(Long id, @Valid ExpenseDAO expense) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid expense id");
+        }
+
+        if (expense == null) {
+            throw new IllegalArgumentException("Expense object must not be null");
+        }
 
         return expenseRepository.save(expense);
-    }
-
-    public void deleteExpenseById(Long id) {
-
-        expenseRepository.deleteById(id);
     }
 
     public List<ExpenseDTO> getExpensesByUserIdAndEventId(Long userId, Long eventId) {
@@ -78,12 +90,16 @@ public class ExpenseService {
                 })
                 .collect(Collectors.toList());
     }
-  
+
     public List<ExpenseDAO> getAllExpenses() {
         return expenseRepository.findAll();
     }
 
-    public void deleteExpensesByEvent(EventDAO event) {
+    public void deleteExpensesByEvent(@NotNull @Valid EventDAO event) {
+        if (event.getEventId() == null) {
+            throw new IllegalArgumentException("Event id must not be null");
+        }
+
         List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
         for (ExpenseDAO expense : expenses) {
             expenseRepository.delete(expense);
