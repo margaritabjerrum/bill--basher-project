@@ -14,20 +14,39 @@ import TextFieldComponent from '../../../components/layout/ui/text-field-compone
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import EventMembersListComponent from './event-members-list-component copy';
+import EventMembersListComponent from './event-members-list-component';
+import ApiService from '../../../services/api-service';
+import { useSelector } from 'react-redux';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
   const [clicked, setClicked] = React.useState(false);
   const [checkedItems, setCheckedItems] = useState({});
-  const userId = 2;
+  const [peopleList, setPeopleList] = React.useState([]);
+  const userId = user.userId;
 
-  const createEvent = (eventCreationData) => {
-    console.log(eventCreationData);
-    navigate('/event');
+  const fetchData = async () => {
+    try {
+      const response = await ApiService.getUsers();
+      setPeopleList(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const onClick = () => {
+    setClicked(true);
+    fetchData();
+  };
+
+  const createEvent = async (data) => {
+    const res = ApiService.createEvent(data.userId, data.eventName);
+    console.log(data);
+    // navigate('/event');
+  };
+
+    const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
@@ -102,7 +121,7 @@ const CreateEvent = () => {
                 marginLeft: 'auto',
                 bgcolor: 'secondary.main',
               }}
-              onClick={() => setClicked(true)}
+              onClick={onClick}
             >
               Add Event members
             </Button>
@@ -110,6 +129,7 @@ const CreateEvent = () => {
           {clicked && (
             <EventMembersListComponent
               onCheckedItemsChange={handleCheckedItemsChange}
+              peopleList={peopleList}
             />
           )}
           <Button

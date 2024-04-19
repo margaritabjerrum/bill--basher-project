@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import {
   List,
   ListItem,
@@ -8,25 +9,21 @@ import {
   Typography,
 } from '@mui/material';
 
-const PeopleList = [
-  'Person1',
-  'Person2',
-  'Person3',
-  'Person4',
-  'Person5',
-  'Person6',
-];
+const EventMembersListComponent = ({ onCheckedItemsChange, peopleList }) => {
+  console.log(peopleList);
 
-// eslint-disable-next-line react/prop-types
-function EventMembersListComponent({ onCheckedItemsChange }) {
-  const [checkedItems, setCheckedItems] = useState({});
+  const [checkedItems, setCheckedItems] = React.useState({});
+  console.log(checkedItems);
 
   const handleToggle = (person) => {
     setCheckedItems((prev) => ({
       ...prev,
-      [person]: !prev[person],
+      [person.username]: !prev[person.username],
     }));
-    onCheckedItemsChange({ ...checkedItems, [person]: !checkedItems[person] });
+    onCheckedItemsChange({
+      ...checkedItems,
+      [person.username]: !checkedItems[person.username],
+    });
   };
 
   return (
@@ -37,9 +34,9 @@ function EventMembersListComponent({ onCheckedItemsChange }) {
         alignItems: 'center',
       }}
     >
-      {PeopleList.map((person) => (
+      {peopleList.map((person, index) => (
         <ListItem
-          key={person}
+          key={index}
           disablePadding
           sx={{
             my: 0.5,
@@ -51,17 +48,19 @@ function EventMembersListComponent({ onCheckedItemsChange }) {
           <ListItemButton component="div" sx={{ my: 0, py: 0 }}>
             <Checkbox
               sx={{ m: 0, p: 0 }}
-              checked={checkedItems[person] || false}
+              checked={checkedItems[person.username] || false}
               onChange={() => handleToggle(person)}
             />
             <ListItemText
-              primary={<Typography variant="body2">{person}</Typography>}
+              primary={
+                <Typography variant="body2">{person.username}</Typography>
+              }
             />
           </ListItemButton>
         </ListItem>
       ))}
     </List>
   );
-}
+};
 
 export default EventMembersListComponent;
