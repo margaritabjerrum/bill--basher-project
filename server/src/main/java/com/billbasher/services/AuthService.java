@@ -33,7 +33,7 @@ public class AuthService {
             UserDAO user = userOptional.get();
             // Check if user is active
             if (!user.getIsActive()) {
-                throw new UserNotActiveException("User " + usernameOrEmail + " is not active");
+                throw new UserNotActiveException("User " + usernameOrEmail + " was not found, please register.");
             }
             // Verify password
             if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
@@ -49,4 +49,12 @@ public class AuthService {
             throw new UserNotActiveException("User " + usernameOrEmail + " does not exist");
         }
     }
+
+
+
+    // Function to check if JWT token is valid
+    public boolean isTokenValid(String token) {
+        return jwtUtil.validateToken(token);
+    }
+
 }
