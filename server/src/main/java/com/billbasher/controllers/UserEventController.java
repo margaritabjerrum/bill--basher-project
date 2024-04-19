@@ -51,7 +51,7 @@ public class UserEventController {
 
         for (UserEventDAO userEvent : userEvents) {
             EventDAO event = userEvent.getEventId();
-            EventDTO eventDTO = new EventDTO(event.getEventId(),event.getEventName());
+            EventDTO eventDTO = new EventDTO(event.getEventId(),event.getEventName(),event.getEventActive());
             events.add(eventDTO);
         }
 

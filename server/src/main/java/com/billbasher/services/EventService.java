@@ -32,8 +32,6 @@ public class EventService {
     private ExpenseService expenseService;
     @Autowired
     private UserEventRep userEventRepository;
-    @Autowired
-    private UserRep userRepository;
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
 
@@ -100,7 +98,8 @@ public class EventService {
         List<EventDAO> events = eventRepository.findByUserId(user);
 
         return events.stream()
-                .map(event -> new EventDTO(event.getEventId(), event.getEventName()))
+                .map(event -> new EventDTO(event.getEventId(), event.getEventName(), event.getEventActive()))
                 .collect(Collectors.toList());
     }
+
 }
