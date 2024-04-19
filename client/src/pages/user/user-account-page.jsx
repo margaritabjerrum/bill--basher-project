@@ -1,9 +1,9 @@
 import React from 'react';
 // import { Link, useNavigate } from 'react-router-dom';
-import Img from '../../components/layout/ui/img';
 import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
 import NavBar from '../../components/layout/navbar/navbar';
 import { useSelector } from 'react-redux';
+import LogoComponent from '../../components/logo/logo-component';
 
 const UserAccountPage = () => {
   const user = useSelector((state) => state.user.user);
@@ -22,16 +22,7 @@ const UserAccountPage = () => {
             textAlign: 'center',
           }}
         >
-          <Img
-            src="../../../assests/BB_logo.png"
-            alt="Bill Basher Logo"
-            sx={{
-              aspectRatio: '1.42',
-              width: 1 / 2,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
+          <LogoComponent />
           <Box sx={{ width: '100%', height: '100%', margin: 'auto' }}>
             <Typography variant="h5" component="h2">
               Username: {user.username}{' '}

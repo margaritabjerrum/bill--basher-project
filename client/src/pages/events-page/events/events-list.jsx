@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Img from '../../../components/layout/ui/img';
 // import { useSelector } from 'react-redux';
 import { Box, Button, Container, CssBaseline } from '@mui/material';
-import EventsListComponent from './events-list-component';
+import EventsListComponent from '../events/event-list/events-list-component';
 import NavBar from '../../../components/layout/navbar/navbar';
+import LogoComponent from '../../../components/logo/logo-component';
 
 const EventsList = () => {
   const navigate = useNavigate();
@@ -26,16 +26,7 @@ const EventsList = () => {
             height: '70vh',
           }}
         >
-          <Img
-            src="../../assests/BB_logo.png"
-            alt="Bill Basher Logo"
-            sx={{
-              aspectRatio: '1.42',
-              width: 1 / 2,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
+          <LogoComponent />
           <Box display="flex" justifyContent="flex-end" sx={{ width: '100%' }}>
             <Button
               variant="contained"

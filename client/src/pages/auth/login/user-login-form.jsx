@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Img from '../../../components/layout/ui/img';
 import { useDispatch } from 'react-redux';
 import {
   Avatar,
@@ -13,9 +12,10 @@ import {
   Typography,
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-import TextFieldComponent from '../../../components/layout/ui/text-field-component';
+import TextFieldComponent from '../../../components/text-field/text-field-component';
 import ApiService from '../../../services/api-service';
 import { addUser } from '../../../redux-toolkit/reducers/user/user.reducer';
+import LogoComponent from '../../../components/logo/logo-component';
 
 const UserLoginForm = () => {
   const navigate = useNavigate();
@@ -63,16 +63,7 @@ const UserLoginForm = () => {
           alignItems: 'center',
         }}
       >
-        <Img
-          src="../../assests/BB_logo.png"
-          alt="Bill Basher Logo"
-          sx={{
-            aspectRatio: '1.42',
-            width: 1 / 2,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        />
+        <LogoComponent />
         <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockIcon />
         </Avatar>

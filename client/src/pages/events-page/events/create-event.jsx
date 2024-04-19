@@ -8,15 +8,15 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import Img from '../../../components/layout/ui/img';
 import NavBar from '../../../components/layout/navbar/navbar';
-import TextFieldComponent from '../../../components/layout/ui/text-field-component';
+import TextFieldComponent from '../../../components//text-field/text-field-component';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import EventMembersListComponent from './event-members-list-component';
+import EventMembersListComponent from '../events/event-list/event-members-list-component';
 import ApiService from '../../../services/api-service';
 import { useSelector } from 'react-redux';
+import LogoComponent from '../../../components/logo/logo-component';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const CreateEvent = () => {
     // navigate('/event');
   };
 
-    const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
@@ -77,16 +77,7 @@ const CreateEvent = () => {
           height: '70vh',
         }}
       >
-        <Img
-          src="../../assests/BB_logo.png"
-          alt="Bill Basher Logo"
-          sx={{
-            aspectRatio: '1.42',
-            width: 1 / 2,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        />
+        <LogoComponent />
         <Typography variant="h4" component="h1" sx={{ color: 'primary.dark' }}>
           Create new event
         </Typography>
