@@ -1,16 +1,29 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
-import EventsListComponent from '../events/event-list/events-list-component';
-import NavBar from '../../../components/layout/navbar/navbar';
-import LogoComponent from '../../../components/logo/logo-component';
+import ExpenseListComponent from './expense-list-component';
+import NavBar from '../../components/layout/navbar/navbar';
+import LogoComponent from '../../components/logo/logo-component';
+import { useParams } from 'react-router-dom';
+import ApiService from '../../services/api-service';
 
-const EventsList = () => {
+const ExpenseListPage = () => {
   const navigate = useNavigate();
+  const { eventId } = useParams();
+  const [eventName, setEventName] = React.useState('');
+
+  React.useEffect(() => {
+    (async () => {
+      const eventData = await ApiService.getEventById(eventId);
+      setEventName(eventData.data.eventName);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onClick = () => {
-    navigate('/createevent');
+    // navigate('/createevent');
+    console.log('clicked');
   };
 
   return (
@@ -32,19 +45,26 @@ const EventsList = () => {
             component="h1"
             sx={{ color: 'primary.dark' }}
           >
-            My Events
+            {eventName}
           </Typography>
           <Box display="flex" justifyContent="flex-end" sx={{ width: '100%' }}>
+            <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2, width: '50%' }}
+              onClick={onClick}
+            >
+              View Members
+            </Button>
             <Button
               variant="contained"
               sx={{ mt: 3, mb: 2, width: '50%', ml: 2 }}
               onClick={onClick}
             >
-              Create new Event
+              Add new Expense
             </Button>
           </Box>
           <Box sx={{ width: '100%', height: '100%' }}>
-            <EventsListComponent />
+            <ExpenseListComponent eventId={eventId} />
           </Box>
         </Box>
 
@@ -54,4 +74,4 @@ const EventsList = () => {
   );
 };
 
-export default EventsList;
+export default ExpenseListPage;
