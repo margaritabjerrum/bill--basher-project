@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
-import { Box, Button, Container, CssBaseline } from '@mui/material';
+import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
 import EventsListComponent from '../events/event-list/events-list-component';
 import NavBar from '../../../components/layout/navbar/navbar';
 import LogoComponent from '../../../components/logo/logo-component';
@@ -27,6 +27,13 @@ const EventsList = () => {
           }}
         >
           <LogoComponent />
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{ color: 'primary.dark' }}
+          >
+            My Events
+          </Typography>
           <Box display="flex" justifyContent="flex-end" sx={{ width: '100%' }}>
             <Button
               variant="contained"

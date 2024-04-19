@@ -55,6 +55,8 @@ const CreateEvent = () => {
       let userId = filteredEventMemberList[i].userId;
       await ApiService.addMembersToEvent(userId, eventId);
     }
+
+    navigate(`/event/${eventId}`);
   };
 
   const handleSubmit = (e) => {

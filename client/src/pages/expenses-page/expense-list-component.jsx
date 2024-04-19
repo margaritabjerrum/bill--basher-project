@@ -6,32 +6,28 @@ import {
   ListItemButton,
   Typography,
 } from '@mui/material';
-import ApiService from '../../../../services/api-service';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import ApiService from '../../services/api-service';
+import PropTypes from 'prop-types';
 
-const EventsListComponent = () => {
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
-  const userId = user.userId;
-  const [eventsList, setEventsList] = React.useState([]);
+const ExpenseListComponent = ({ eventId }) => {
+  const [expenseList, setEventsList] = React.useState([]);
 
   React.useEffect(() => {
     (async () => {
-      const eventsList = await ApiService.getUserEvents(userId);
-      setEventsList(eventsList.data);
+      const expenseList = await ApiService.getExpensesPerEvent(eventId);
+      setEventsList(expenseList.data);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      {eventsList.length === 0 && (
+      {expenseList.length === 0 && (
         <Typography variant="h5" component="h2">
-          You do not have any events yet
+          Please create new expense
         </Typography>
       )}
-      {eventsList && (
+      {expenseList && (
         <List
           sx={{
             display: 'flex',
@@ -39,7 +35,7 @@ const EventsListComponent = () => {
             alignItems: 'center',
           }}
         >
-          {eventsList.map((event, index) => (
+          {expenseList.map((expense, index) => (
             <ListItem
               key={index}
               disablePadding
@@ -52,13 +48,19 @@ const EventsListComponent = () => {
             >
               <ListItemButton
                 component="a"
-                href={`#${event.eventName}`}
+                href={`#${expense.expenseReason}`}
                 sx={{ my: 0, py: 0 }}
-                onClick={() => navigate(`/event/${event.eventId}`)}
               >
                 <ListItemText
                   primary={
-                    <Typography variant="body2">{event.eventName}</Typography>
+                    <Typography variant="body2">
+                      {expense.expenseReason +
+                        ' Paid by ' +
+                        expense.userId.username +
+                        ' Total: ' +
+                        expense.amountSpent +
+                        '€'}
+                    </Typography>
                   }
                 />
               </ListItemButton>
@@ -70,4 +72,9 @@ const EventsListComponent = () => {
   );
 };
 
-export default EventsListComponent;
+ExpenseListComponent.propTypes = {
+  defaultValue: PropTypes.string,
+  eventId: PropTypes.string.isRequired,
+};
+
+export default ExpenseListComponent;

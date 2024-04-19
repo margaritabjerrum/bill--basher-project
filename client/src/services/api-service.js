@@ -75,12 +75,29 @@ const addMembersToEvent = async (userId, eventId) => {
   return res;
 };
 
-// const getUserByUsername = async (username) => {
-//   const { data } = await api.post(`/username`, {
-//     username: username.chattingWith,
-//   });
-//   return data;
-// };
+const getEventById = async (eventId) => {
+  const data = await api.get(`/events/${eventId}`);
+  return data;
+};
+
+const getExpensesPerEvent = async (eventId) => {
+  const data = await api.get(`/expenses/event/${eventId}`);
+  return data;
+};
+
+const createExpense = async (data) => {
+  const res = await api.post('/expenses', {
+    userId: {
+      userId: data.userId,
+    },
+    eventId: {
+      eventId: data.eventId,
+    },
+    expenseReason: data.expenseName,
+    amountSpent: data.amountSpent,
+  });
+  return res;
+};
 
 const ApiService = {
   createUser,
@@ -90,11 +107,10 @@ const ApiService = {
   getUserEvents,
   createEvent,
   addMembersToEvent,
+  getEventById,
+  getExpensesPerEvent,
+  createExpense,
   // updateUser,
-
-  // getUsers,
-  // getUser,
-  // getUserByUsername,
 };
 
 export default ApiService;
