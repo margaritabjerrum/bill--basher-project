@@ -11,9 +11,9 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import TextFieldComponent from '../../../components/layout/ui/text-field-component';
-import Img from '../../../components/layout/ui/img';
+import TextFieldComponent from '../../../components/text-field/text-field-component';
 import LockIcon from '@mui/icons-material/Lock';
+import LogoComponent from '../../../components/logo/logo-component';
 
 const UserRegistrationForm = () => {
   const navigate = useNavigate();
@@ -72,16 +72,7 @@ const UserRegistrationForm = () => {
           alignItems: 'center',
         }}
       >
-        <Img
-          src="../../assests/BB_logo.png"
-          alt="Bill Basher Logo"
-          sx={{
-            aspectRatio: '1.42',
-            width: 1 / 2,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        />
+        <LogoComponent />
         <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockIcon />
         </Avatar>

@@ -6,7 +6,7 @@ import {
   ListItemButton,
   Typography,
 } from '@mui/material';
-import ApiService from '../../../services/api-service';
+import ApiService from '../../../../services/api-service';
 import { useSelector } from 'react-redux';
 
 const EventsListComponent = () => {
