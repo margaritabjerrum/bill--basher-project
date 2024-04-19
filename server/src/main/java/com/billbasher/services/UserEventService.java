@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserEventService {
@@ -71,5 +73,16 @@ public class UserEventService {
 
         userEventRep.delete(optionalUserEvent.get());
     }
+
+    public List<UserDAO> findUsersByEventId(Long eventId) {
+        List<UserEventDAO> userEventList = userEventRep.findByEventId_EventId(eventId);
+        List<UserDAO> users = userEventList.stream()
+                .map(UserEventDAO::getUserId)
+                .collect(Collectors.toList());
+        return users;
+    }
+
+
+
 
 }

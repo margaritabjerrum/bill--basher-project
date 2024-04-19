@@ -1,7 +1,9 @@
 package com.billbasher.controllers;
 
 import com.billbasher.dto.EventDTO;
+import com.billbasher.dto.UserDTO;
 import com.billbasher.model.EventDAO;
+import com.billbasher.model.UserDAO;
 import com.billbasher.model.UserEventDAO;
 import com.billbasher.services.UserEventService;
 import org.springframework.http.HttpStatus;
@@ -56,5 +58,19 @@ public class UserEventController {
         }
 
         return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/v1/users/by-event/{eventId}")
+    public ResponseEntity<List<UserDTO>> getUsersByEventId(@PathVariable("eventId") Long eventId) {
+        List<UserDAO> users = userEventService.findUsersByEventId(eventId);
+
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        for (UserDAO user : users) {
+            UserDTO userDTO = UserDTO.mapUserDAOToDTO(user);
+            userDTOs.add(userDTO);
+        }
+
+        return ResponseEntity.ok(userDTOs);
     }
 }

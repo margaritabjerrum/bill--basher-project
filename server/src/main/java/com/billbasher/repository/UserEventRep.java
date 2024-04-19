@@ -15,5 +15,7 @@ public interface UserEventRep extends JpaRepository<UserEventDAO, Long> {
     Optional<UserEventDAO> findByUserId_UserIdAndEventId_EventId(Long userId, Long eventId);
     List<UserEventDAO> findByUserIdUserId(Long userId);
     long countByEventId(EventDAO event);
+    List<UserEventDAO> findByEventId_EventId(Long eventId);
+    List<Long> findDistinctUserIdByEventId_EventId(Long eventId);
 }
 
