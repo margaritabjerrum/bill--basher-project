@@ -105,4 +105,16 @@ public class EventService {
                 .map(event -> new EventDTO(event.getEventId(), event.getEventName()))
                 .collect(Collectors.toList());
     }
+
+    public EventDAO deactivateEvent(Long eventId) {
+        Optional<EventDAO> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            EventDAO event = eventOptional.get();
+            event.setEventActive(false);
+            return eventRepository.save(event);
+        } else {
+            throw new EntityNotFoundException("Event with id " + eventId + " not found");
+        }
+    }
+
 }
