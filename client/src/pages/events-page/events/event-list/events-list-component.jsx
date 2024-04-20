@@ -9,6 +9,7 @@ import {
 import ApiService from '../../../../services/api-service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const EventsListComponent = () => {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ const EventsListComponent = () => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDelete = () => {
+    console.log('clicked');
+  };
 
   return (
     <>
@@ -45,7 +50,7 @@ const EventsListComponent = () => {
               disablePadding
               sx={{
                 my: 0.5,
-                bgcolor: 'secondary.main',
+                bgcolor: event.eventActive ? 'secondary.main' : 'text.disabled',
                 width: '100%',
                 borderRadius: 2,
               }}
@@ -62,6 +67,12 @@ const EventsListComponent = () => {
                   }
                 />
               </ListItemButton>
+              {!event.eventActive && (
+                <DeleteForeverIcon
+                  sx={{ color: 'secondary.main' }}
+                  onClick={() => handleDelete(event.eventId)}
+                />
+              )}
             </ListItem>
           ))}
         </List>

@@ -6,6 +6,7 @@ import CreateEvent from './pages/events-page/events/create-event';
 import UserAccountPage from './pages/user/user-account-page';
 import ExpenseListPage from './pages/expenses-page/expense-list-page';
 import CreateExpense from './pages/expenses-page/create-expense';
+import EventMembersPage from './pages/expenses-page/event-members-page';
 
 export const AppRouter = () => {
   const elements = useRoutes([
@@ -36,6 +37,10 @@ export const AppRouter = () => {
     {
       path: '/createexpense/:eventName/:eventId',
       element: <CreateExpense />,
+    },
+    {
+      path: '/eventmembers/:eventName/:eventId',
+      element: <EventMembersPage />,
     },
   ]);
 

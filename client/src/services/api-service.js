@@ -40,6 +40,10 @@ const login = async (data) => {
 
 //   return res;
 // };
+const getUser = async (userId) => {
+  const data = await api.get(`/users/${userId}`);
+  return data;
+};
 
 const getUsers = async () => {
   const data = await api.get('/users');
@@ -57,6 +61,26 @@ const createEvent = async (userId, eventName) => {
       userId: userId,
     },
     eventActive: true,
+    eventName: eventName,
+  });
+  return res;
+};
+
+const updateEvent = async (user, eventId, eventName) => {
+  const res = await api.put(`/events/${eventId}`, {
+    eventId: eventId,
+    userId: user,
+    eventActive: true,
+    eventName: eventName,
+  });
+  return res;
+};
+
+const finishEvent = async (user, eventId, eventName) => {
+  const res = await api.put(`/events/${eventId}`, {
+    eventId: eventId,
+    userId: user,
+    eventActive: false,
     eventName: eventName,
   });
   return res;
@@ -99,17 +123,26 @@ const createExpense = async (data) => {
   return res;
 };
 
+const getUsersPerEvent = async (eventId) => {
+  const data = await api.get(`/users/by-event/${eventId}`);
+  return data;
+};
+
 const ApiService = {
   createUser,
   login,
+  getUser,
   getUsers,
 
   getUserEvents,
   createEvent,
+  updateEvent,
+  finishEvent,
   addMembersToEvent,
   getEventById,
   getExpensesPerEvent,
   createExpense,
+  getUsersPerEvent,
   // updateUser,
 };
 
