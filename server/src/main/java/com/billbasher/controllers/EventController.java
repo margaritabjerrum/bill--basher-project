@@ -65,4 +65,11 @@ public class EventController {
         eventService.deleteEventById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/api/v1/events/deactivate/{id}")
+    public ResponseEntity<EventDAO> deactivateEvent(@PathVariable("id") Long id) {
+        EventDAO deactivatedEvent = eventService.deactivateEvent(id);
+        return new ResponseEntity<>(deactivatedEvent, HttpStatus.OK);
+    }
+
 }
