@@ -83,7 +83,6 @@ const finishEvent = async (user, eventId, eventName) => {
     eventActive: false,
     eventName: eventName,
   });
-  console.log(res);
   return res;
 };
 

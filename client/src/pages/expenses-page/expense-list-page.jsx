@@ -41,6 +41,7 @@ const ExpenseListPage = () => {
       eventId,
       !editedEventName ? eventName : editedEventName,
     );
+    navigate('/events');
   };
 
   const handleEdit = () => {
