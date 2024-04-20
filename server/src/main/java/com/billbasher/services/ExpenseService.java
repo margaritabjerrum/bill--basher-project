@@ -43,12 +43,7 @@ public class ExpenseService {
     }
 
     public List<ExpenseDAO> findExpensesByEventId(@NotNull @Valid EventDAO event) {
-        List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
-        if (expenses.isEmpty()) {
-            throw new NoSuchElementException("No expenses found for event with id: " + event.getEventId());
-        }
-
-        return expenses;
+        return expenseRepository.findByEventId(event);
     }
 
     public ExpenseDAO updateExpenseById(Long id, @Valid ExpenseDAO expense) {
