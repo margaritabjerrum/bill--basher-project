@@ -1,28 +1,62 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  CssBaseline,
+  TextField,
+  Typography,
+} from '@mui/material';
 import ExpenseListComponent from './expense-list-component';
 import NavBar from '../../components/layout/navbar/navbar';
 import LogoComponent from '../../components/logo/logo-component';
 import { useParams } from 'react-router-dom';
 import ApiService from '../../services/api-service';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 
 const ExpenseListPage = () => {
   const navigate = useNavigate();
   const { eventId } = useParams();
   const [eventName, setEventName] = React.useState('');
+  const [editedEventName, setEditedEventName] = React.useState('');
+  const [creatorData, setCreatorData] = React.useState('');
+  const [isEditing, setIsEditing] = React.useState(false);
 
   React.useEffect(() => {
     (async () => {
       const eventData = await ApiService.getEventById(eventId);
+      setCreatorData(eventData.data.userId);
       setEventName(eventData.data.eventName);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onFinishEvent = () => {
-    console.log('clicked');
-  }
+  const onFinishEvent = async () => {
+    await ApiService.finishEvent(
+      creatorData,
+      eventId,
+      !editedEventName ? eventName : editedEventName,
+    );
+  };
+
+  const handleEdit = () => {
+    setEditedEventName(!editedEventName ? eventName : editedEventName);
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    setIsEditing(false);
+    await ApiService.updateEvent(creatorData, eventId, editedEventName);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedEventName('');
+  };
 
   return (
     <>
@@ -38,13 +72,51 @@ const ExpenseListPage = () => {
           }}
         >
           <LogoComponent />
-          <Typography
-            variant="h4"
-            component="h1"
-            sx={{ color: 'primary.dark' }}
-          >
-            {eventName}
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {!isEditing ? (
+              <>
+                <Typography
+                  variant="h4"
+                  component="h1"
+                  sx={{ color: 'primary.dark', marginRight: '8px' }}
+                >
+                  {!editedEventName ? eventName : editedEventName}
+                </Typography>
+                <IconButton
+                  aria-label="edit"
+                  sx={{ bgcolor: 'secondary.main' }}
+                  onClick={handleEdit}
+                >
+                  <EditIcon sx={{ color: 'primary.main' }} />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <TextField
+                  sx={{ backgroundColor: 'secondary.main', marginRight: '8px' }}
+                  value={editedEventName}
+                  onChange={(e) => setEditedEventName(e.target.value)}
+                  fullWidth
+                  label="Event Name"
+                  variant="filled"
+                />
+                <IconButton
+                  aria-label="save"
+                  sx={{ bgcolor: 'secondary.main' }}
+                  onClick={handleSave}
+                >
+                  <SaveIcon sx={{ color: 'primary.main' }} />
+                </IconButton>
+                <IconButton
+                  aria-label="cancel"
+                  sx={{ bgcolor: 'secondary.main' }}
+                  onClick={handleCancel}
+                >
+                  <ArrowBackIcon sx={{ color: 'primary.main' }} />
+                </IconButton>
+              </>
+            )}
+          </Box>
           <Box display="flex" justifyContent="flex-end" sx={{ width: '100%' }}>
             <Button
               variant="contained"
@@ -79,6 +151,13 @@ const ExpenseListPage = () => {
             <ExpenseListComponent eventId={eventId} />
           </Box>
         </Box>
+        <IconButton
+          aria-label="back"
+          sx={{ bgcolor: 'secondary.main' }}
+          onClick={() => navigate(`/events`)}
+        >
+          <ArrowBackIcon sx={{ color: 'primary.main' }} />
+        </IconButton>
         <NavBar />
       </Container>
     </>

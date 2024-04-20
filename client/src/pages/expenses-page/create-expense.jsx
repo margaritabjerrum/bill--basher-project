@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   CssBaseline,
+  IconButton,
   Grid,
   Typography,
 } from '@mui/material';
@@ -14,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ApiService from '../../services/api-service';
 import TextFieldComponent from '../../components/text-field/text-field-component';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const CreateExpense = () => {
   const navigate = useNavigate();
@@ -111,6 +113,13 @@ const CreateExpense = () => {
             </Button>
           </Box>
         </Box>
+        <IconButton
+          aria-label="back"
+          sx={{ bgcolor: 'secondary.main' }}
+          onClick={() => navigate(`/event/${eventId}`)}
+        >
+          <ArrowBackIcon sx={{ color: 'primary.main' }} />
+        </IconButton>
         <NavBar />
       </Container>
     </>
