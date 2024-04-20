@@ -26,8 +26,8 @@ const EventsListComponent = () => {
   }, []);
 
   const handleDelete = () => {
-    console.log('clicked')
-  }
+    console.log('clicked');
+  };
 
   return (
     <>
@@ -46,7 +46,7 @@ const EventsListComponent = () => {
         >
           {eventsList.map((event, index) => (
             <ListItem
-            key={index}
+              key={index}
               disablePadding
               sx={{
                 my: 0.5,
@@ -67,7 +67,12 @@ const EventsListComponent = () => {
                   }
                 />
               </ListItemButton>
-              {!event.eventActive && <DeleteForeverIcon sx={{ color: 'secondary.main' }} onClick={() => handleDelete(event.eventId)} />}
+              {!event.eventActive && (
+                <DeleteForeverIcon
+                  sx={{ color: 'secondary.main' }}
+                  onClick={() => handleDelete(event.eventId)}
+                />
+              )}
             </ListItem>
           ))}
         </List>
