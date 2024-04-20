@@ -20,6 +20,10 @@ const ExpenseListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onFinishEvent = () => {
+    console.log('clicked');
+  }
+
   return (
     <>
       <Container component="main" maxWidth="xs" sx={{ width: '100%' }}>
@@ -55,6 +59,19 @@ const ExpenseListPage = () => {
               onClick={() => navigate(`/createexpense/${eventName}/${eventId}`)}
             >
               Add new Expense
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2, width: '50%', ml: 2 }}
+              onClick={onFinishEvent}
+            >
+              Finish Event
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2, width: '50%', ml: 2 }}
+            >
+              View Balance
             </Button>
           </Box>
 
