@@ -20,10 +20,6 @@ const ExpenseListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClickViewMembers = () => {
-    console.log('clicked: onClickViewMembers');
-  };
-
   return (
     <>
       <Container component="main" maxWidth="xs" sx={{ width: '100%' }}>
@@ -49,7 +45,7 @@ const ExpenseListPage = () => {
             <Button
               variant="contained"
               sx={{ mt: 3, mb: 2, width: '50%' }}
-              onClick={onClickViewMembers}
+              onClick={() => navigate(`/eventmembers/${eventName}/${eventId}`)}
             >
               View Members
             </Button>

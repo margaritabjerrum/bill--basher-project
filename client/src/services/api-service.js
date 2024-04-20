@@ -99,6 +99,11 @@ const createExpense = async (data) => {
   return res;
 };
 
+const getUsersPerEvent = async (eventId) => {
+  const data = await api.get(`/users/by-event/${eventId}`);
+  return data;
+};
+
 const ApiService = {
   createUser,
   login,
@@ -110,6 +115,7 @@ const ApiService = {
   getEventById,
   getExpensesPerEvent,
   createExpense,
+  getUsersPerEvent,
   // updateUser,
 };
 
