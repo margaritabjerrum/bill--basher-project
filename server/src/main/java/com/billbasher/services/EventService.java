@@ -49,6 +49,7 @@ public class EventService {
         if (existingEventOptional.isPresent()) {
             EventDAO existingEvent = existingEventOptional.get();
             existingEvent.setEventName(event.getEventName());
+            existingEvent.setEventActive(event.getEventActive());
 
             return eventRepository.save(existingEvent);
         } else {
