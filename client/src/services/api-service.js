@@ -152,6 +152,11 @@ const updateExpenseById = async (data) => {
   return res;
 };
 
+const deleteExpenseById = async (expenseId) => {
+  const data = await api.delete(`/expenses/remove/${expenseId}`);
+  return data;
+};
+
 const ApiService = {
   createUser,
   login,
@@ -170,6 +175,7 @@ const ApiService = {
   createExpense,
   getExpenseById,
   updateExpenseById,
+  deleteExpenseById,
   getUsersPerEvent,
   // updateUser,
 };
