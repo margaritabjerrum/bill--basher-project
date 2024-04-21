@@ -14,7 +14,7 @@ const createUser = async (data) => {
     username: data.username,
     name: data.name,
     surname: data.surname,
-    email: data.email,
+    email: data.lowerCaseEmail,
     password: data.password,
   });
   return res;
