@@ -26,14 +26,15 @@ const CreateEvent = () => {
   const [clicked, setClicked] = React.useState(false);
   const [checkedItems, setCheckedItems] = useState({});
   const [peopleList, setPeopleList] = React.useState([]);
+  console.log(peopleList);
 
   const fetchData = async () => {
     try {
       const response = await ApiService.getUsers();
-      const peopleListWithoutCreatorUser = response.data.filter(
-        (person) => person.userId !== userId,
+      const peopleListWithoutCreatorAndOnlyActive = response.data.filter(
+        (person) => person.userId !== userId && person.isActive,
       );
-      setPeopleList(peopleListWithoutCreatorUser);
+      setPeopleList(peopleListWithoutCreatorAndOnlyActive);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
