@@ -17,5 +17,4 @@ public class BillBasherApplication{
     public static void main(String[] args) {
         SpringApplication.run(BillBasherApplication.class, args);
     }
-
 }

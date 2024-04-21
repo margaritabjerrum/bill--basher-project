@@ -25,16 +25,19 @@ public class ExpenseController {
         ExpenseDAO createdExpense = expenseService.createExpense(expense);
         return new ResponseEntity<>(createdExpense, HttpStatus.CREATED);
     }
+
     @GetMapping("/api/v1/expenses/{id}")
     public ResponseEntity<ExpenseDAO> findExpenseById(@PathVariable("id") Long id) {
         ExpenseDAO expense = expenseService.findExpenseById(id);
         return new ResponseEntity<>(expense, HttpStatus.OK);
     }
+
     @PutMapping("/api/v1/expenses/{id}")
     public ResponseEntity<ExpenseDAO> updateExpenseById(@PathVariable("id") Long id, @RequestBody ExpenseDAO expense) {
         ExpenseDAO updateExpense = expenseService.updateExpenseById(id, expense);
         return new ResponseEntity<>(updateExpense, HttpStatus.OK);
     }
+
     @GetMapping("/api/v1/expenses/event/{id}")
     public ResponseEntity<List<ExpenseDAO>> findExpensesByEventId(@PathVariable Long id) {
         EventDAO event = eventService.findEventById(id);
