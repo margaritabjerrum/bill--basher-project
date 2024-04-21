@@ -20,6 +20,11 @@ const createUser = async (data) => {
   return res;
 };
 
+const deleteUser = async (userId) => {
+  const data = await api.put(`/users/deactivate/${userId}`);
+  return data;
+};
+
 const login = async (data) => {
   const res = await api.post('/login', {
     usernameOrEmail: data.usernameOrEmail,
@@ -159,6 +164,7 @@ const deleteExpenseById = async (expenseId) => {
 
 const ApiService = {
   createUser,
+  deleteUser,
   login,
   validateToken,
   getUser,
