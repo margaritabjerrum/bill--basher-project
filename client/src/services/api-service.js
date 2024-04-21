@@ -28,6 +28,11 @@ const login = async (data) => {
   return res;
 };
 
+const validateToken = async (token) => {
+  const data = await api.get(`/token/validate/${token}`);
+  return data;
+};
+
 // const updateUser = async (data) => {
 //   const res = await api.post(`updateuser`, {
 //     id: data.id,
@@ -128,9 +133,29 @@ const getUsersPerEvent = async (eventId) => {
   return data;
 };
 
+const getExpenseById = async (expenseId) => {
+  const data = await api.get(`/expenses/${expenseId}`);
+  return data;
+};
+
+const updateExpenseById = async (data) => {
+  const expenseId = data.expenseId;
+  const expenseCreated = data.expenseCreated;
+  const res = await api.put(`/expenses/${expenseId}`, {
+    expenseId,
+    eventId: data.event,
+    userId: data.user,
+    expenseReason: data.expenseName,
+    amountSpent: data.amountSpent,
+    expenseCreated,
+  });
+  return res;
+};
+
 const ApiService = {
   createUser,
   login,
+  validateToken,
   getUser,
   getUsers,
 
@@ -140,8 +165,11 @@ const ApiService = {
   finishEvent,
   addMembersToEvent,
   getEventById,
+
   getExpensesPerEvent,
   createExpense,
+  getExpenseById,
+  updateExpenseById,
   getUsersPerEvent,
   // updateUser,
 };

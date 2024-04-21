@@ -8,8 +8,11 @@ import {
 } from '@mui/material';
 import ApiService from '../../services/api-service';
 import PropTypes from 'prop-types';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
 const ExpenseListComponent = ({ eventId }) => {
+  const navigate = useNavigate();
   const [expenseList, setEventsList] = React.useState([]);
 
   React.useEffect(() => {
@@ -64,6 +67,12 @@ const ExpenseListComponent = ({ eventId }) => {
                   }
                 />
               </ListItemButton>
+              <EditIcon
+                sx={{ color: 'primary.main' }}
+                onClick={() =>
+                  navigate(`/updateexpense/${eventId}/${expense.expenseId}`)
+                }
+              />
             </ListItem>
           ))}
         </List>

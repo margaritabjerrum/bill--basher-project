@@ -10,6 +10,7 @@ import UserAccountPage from './pages/user/user-account-page';
 import ExpenseListPage from './pages/expenses-page/expense-list-page';
 import CreateExpense from './pages/expenses-page/create-expense';
 import EventMembersPage from './pages/expenses-page/event-members-page';
+import UpdateExpense from './pages/expenses-page/update-expense';
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
             <Route
               path="/eventmembers/:eventName/:eventId"
               element={<EventMembersPage />}
+            />
+            <Route
+              path="/updateexpense/:eventId/:expenseId"
+              element={<UpdateExpense />}
             />
           </Routes>
         </BrowserRouter>
