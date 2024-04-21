@@ -18,6 +18,11 @@ import LogoComponent from '../../../components/logo/logo-component';
 const UserRegistrationForm = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState('');
+  const [usernameError, setUsernameError] = React.useState('');
+  const [nameError, setNameError] = React.useState('');
+  const [surnameError, setSurnameError] = React.useState('');
+  const [emailError, setEmailError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
   const [success, setSuccess] = React.useState('');
 
   const createUser = async (data) => {
@@ -30,6 +35,13 @@ const UserRegistrationForm = () => {
     } catch (error) {
       if (error.response.status === 409) {
         setError(error.response.data);
+      }
+      if (error.response.status === 400) {
+        setUsernameError(error.response.data.username);
+        setNameError(error.response.data.name);
+        setSurnameError(error.response.data.surname);
+        setEmailError(error.response.data.email);
+        setPasswordError(error.response.data.password);
       }
     }
   };
@@ -45,6 +57,8 @@ const UserRegistrationForm = () => {
     const password = formData.get('password');
     const password2 = formData.get('password2');
 
+    const lowerCaseEmail = email.toLowerCase();
+
     if (password !== password2) {
       setError('Passwords do not match');
     } else {
@@ -53,7 +67,7 @@ const UserRegistrationForm = () => {
         username,
         name,
         surname,
-        email,
+        lowerCaseEmail,
         password,
       };
 
@@ -135,6 +149,31 @@ const UserRegistrationForm = () => {
           {error && (
             <Alert severity="error" variant="filled">
               {error}
+            </Alert>
+          )}
+          {usernameError && (
+            <Alert severity="error" variant="filled">
+              {usernameError}
+            </Alert>
+          )}
+          {nameError && (
+            <Alert severity="error" variant="filled">
+              {nameError}
+            </Alert>
+          )}
+          {surnameError && (
+            <Alert severity="error" variant="filled">
+              {surnameError}
+            </Alert>
+          )}
+          {emailError && (
+            <Alert severity="error" variant="filled">
+              {emailError}
+            </Alert>
+          )}
+          {passwordError && (
+            <Alert severity="error" variant="filled">
+              {passwordError}
             </Alert>
           )}
           {success && (

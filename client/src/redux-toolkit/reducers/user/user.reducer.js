@@ -14,8 +14,12 @@ const userSlice = createSlice({
       state.token = token;
       state.user = user;
     },
+    clearUser: (state) => {
+      state.token = '';
+      state.user = null;
+    },
   },
 });
 
-export const { addUser } = userSlice.actions;
+export const { addUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

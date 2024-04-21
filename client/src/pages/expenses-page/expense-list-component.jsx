@@ -8,8 +8,12 @@ import {
 } from '@mui/material';
 import ApiService from '../../services/api-service';
 import PropTypes from 'prop-types';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useNavigate } from 'react-router-dom';
 
 const ExpenseListComponent = ({ eventId }) => {
+  const navigate = useNavigate();
   const [expenseList, setEventsList] = React.useState([]);
 
   React.useEffect(() => {
@@ -19,6 +23,12 @@ const ExpenseListComponent = ({ eventId }) => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDelete = async (expenseId) => {
+    await ApiService.deleteExpenseById(expenseId);
+    const updatedExpenseList = await ApiService.getExpensesPerEvent(eventId);
+    setEventsList(updatedExpenseList.data);
+  };
 
   return (
     <>
@@ -64,6 +74,16 @@ const ExpenseListComponent = ({ eventId }) => {
                   }
                 />
               </ListItemButton>
+              <DeleteForeverIcon
+                sx={{ color: 'primary.main' }}
+                onClick={() => handleDelete(expense.expenseId)}
+              />
+              <EditIcon
+                sx={{ color: 'primary.main' }}
+                onClick={() =>
+                  navigate(`/updateexpense/${eventId}/${expense.expenseId}`)
+                }
+              />
             </ListItem>
           ))}
         </List>

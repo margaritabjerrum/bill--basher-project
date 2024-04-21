@@ -65,7 +65,7 @@ const EventMembersPage = () => {
                 disablePadding
                 sx={{
                   my: 0.5,
-                  bgcolor: 'secondary.main',
+                  bgcolor: user.isActive ? 'secondary.main' : 'text.disabled',
                   width: '100%',
                   borderRadius: 2,
                 }}

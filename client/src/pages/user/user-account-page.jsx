@@ -4,9 +4,27 @@ import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
 import NavBar from '../../components/layout/navbar/navbar';
 import { useSelector } from 'react-redux';
 import LogoComponent from '../../components/logo/logo-component';
+import ApiService from '../../services/api-service';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../redux-toolkit/reducers/user/user.reducer';
 
 const UserAccountPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  const userId = user.userId;
+  const onDelete = async (userId) => {
+    await ApiService.deleteUser(userId);
+    navigate('/');
+  };
+
+  const logout = () => {
+    localStorage.removeItem('userSecret');
+    dispatch(clearUser());
+    navigate('/');
+  };
+
   return (
     <>
       <Container component="main" maxWidth="xs" sx={{ width: '100%' }}>
@@ -37,8 +55,19 @@ const UserAccountPage = () => {
             </Typography>
           </Box>
           <Box display="flex" justifyContent="flex-end" sx={{ width: '100%' }}>
-            <Button variant="contained" sx={{ mt: 3, mb: 2, width: '100%' }}>
-              Edit
+            <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2, width: '100%' }}
+              onClick={() => logout()}
+            >
+              Log out
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2, width: '100%', ml: 2 }}
+              onClick={() => onDelete(userId)}
+            >
+              Delete
             </Button>
           </Box>
         </Box>

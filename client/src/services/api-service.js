@@ -14,10 +14,15 @@ const createUser = async (data) => {
     username: data.username,
     name: data.name,
     surname: data.surname,
-    email: data.email,
+    email: data.lowerCaseEmail,
     password: data.password,
   });
   return res;
+};
+
+const deleteUser = async (userId) => {
+  const data = await api.put(`/users/deactivate/${userId}`);
+  return data;
 };
 
 const login = async (data) => {
@@ -26,6 +31,11 @@ const login = async (data) => {
     password: data.password,
   });
   return res;
+};
+
+const validateToken = async (token) => {
+  const data = await api.get(`/token/validate/${token}`);
+  return data;
 };
 
 // const updateUser = async (data) => {
@@ -128,9 +138,35 @@ const getUsersPerEvent = async (eventId) => {
   return data;
 };
 
+const getExpenseById = async (expenseId) => {
+  const data = await api.get(`/expenses/${expenseId}`);
+  return data;
+};
+
+const updateExpenseById = async (data) => {
+  const expenseId = data.expenseId;
+  const expenseCreated = data.expenseCreated;
+  const res = await api.put(`/expenses/${expenseId}`, {
+    expenseId,
+    eventId: data.event,
+    userId: data.user,
+    expenseReason: data.expenseName,
+    amountSpent: data.amountSpent,
+    expenseCreated,
+  });
+  return res;
+};
+
+const deleteExpenseById = async (expenseId) => {
+  const data = await api.delete(`/expenses/remove/${expenseId}`);
+  return data;
+};
+
 const ApiService = {
   createUser,
+  deleteUser,
   login,
+  validateToken,
   getUser,
   getUsers,
 
@@ -140,8 +176,12 @@ const ApiService = {
   finishEvent,
   addMembersToEvent,
   getEventById,
+
   getExpensesPerEvent,
   createExpense,
+  getExpenseById,
+  updateExpenseById,
+  deleteExpenseById,
   getUsersPerEvent,
   // updateUser,
 };
