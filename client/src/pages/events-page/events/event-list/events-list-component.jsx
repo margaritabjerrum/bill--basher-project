@@ -25,8 +25,10 @@ const EventsListComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDelete = () => {
-    console.log('clicked');
+  const handleDelete = async (eventId) => {
+    await ApiService.deleteEventById(eventId);
+    const updatedEventsList = await ApiService.getUserEvents(userId);
+    setEventsList(updatedEventsList.data);
   };
 
   return (

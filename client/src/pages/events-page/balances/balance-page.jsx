@@ -65,7 +65,7 @@ const BalancePage = () => {
                 disablePadding
                 sx={{
                   my: 0.5,
-                  bgcolor: user.isActive ? 'secondary.main' : 'text.disabled',
+                  bgcolor: user.total > 0 ? 'secondary.main' : 'primary.main',
                   width: '100%',
                   borderRadius: 2,
                 }}
@@ -77,7 +77,13 @@ const BalancePage = () => {
                 >
                   <ListItemText
                     primary={
-                      <Typography variant="body2">{user.username}</Typography>
+                      <Typography variant="body2">
+                        {'Total trip balance for ' +
+                          user.username +
+                          ' is: ' +
+                          user.total.toFixed(2) +
+                          '€'}
+                      </Typography>
                     }
                   />
                 </ListItemButton>
