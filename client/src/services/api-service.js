@@ -114,6 +114,11 @@ const getEventById = async (eventId) => {
   return data;
 };
 
+const deleteEventById = async (eventId) => {
+  const data = await api.delete(`/events/${eventId}`);
+  return data;
+};
+
 const getEventBalanceById = async (eventId) => {
   const data = await api.get(`/balance/${eventId}`);
   return data;
@@ -181,6 +186,7 @@ const ApiService = {
   finishEvent,
   addMembersToEvent,
   getEventById,
+  deleteEventById,
   getEventBalanceById,
 
   getExpensesPerEvent,
