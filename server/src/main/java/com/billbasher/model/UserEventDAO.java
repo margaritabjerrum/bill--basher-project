@@ -13,11 +13,9 @@ public class UserEventDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserDAO userId;
-
     @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "eventId")
     private EventDAO eventId;

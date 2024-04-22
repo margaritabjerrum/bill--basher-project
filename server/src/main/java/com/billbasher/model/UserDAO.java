@@ -37,5 +37,4 @@ public class UserDAO {
     private String email;
     private Boolean isActive = true;
     private LocalDateTime userCreated = LocalDateTime.now();
-
 }
