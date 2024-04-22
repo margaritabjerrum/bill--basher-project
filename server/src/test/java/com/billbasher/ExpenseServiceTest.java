@@ -3,13 +3,16 @@ package com.billbasher;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.ExpenseDAO;
 import com.billbasher.model.UserDAO;
+import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.ExpenseRep;
+import com.billbasher.repository.UserEventRep;
 import com.billbasher.repository.UserRep;
 import com.billbasher.services.ExpenseService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
@@ -30,14 +33,37 @@ public class ExpenseServiceTest {
     @Mock
     private EventRep eventRepository;
 
+    @Mock
+    private UserEventRep userEventRepository;
+
     @InjectMocks
     private ExpenseService expenseService;
 
     @Test
     public void testCreateExpense() {
+        UserDAO user = new UserDAO();
+        user.setUserId(1L);
+        EventDAO event = new EventDAO();
+        event.setEventId(1L);
+        event.setUserId(user);
+        UserEventDAO userEvent = new UserEventDAO();
+        userEvent.setId(1L);
+        userEvent.setTotal(0);
+        userEvent.setUserId(user);
+        userEvent.setEventId(event);
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+        Mockito.when(eventRepository.save(event)).thenReturn(event);
+        Mockito.when(userEventRepository.save(userEvent)).thenReturn(userEvent);
+
         ExpenseDAO expense = new ExpenseDAO();
+        expense.setUserId(user);
+        expense.setEventId(event);
+        expense.setAmountSpent(9D);
+
+        Mockito.when(expenseRepository.save(expense)).thenReturn(expense);
         expenseService.createExpense(expense);
-        verify(expenseRepository, times(1)).save(expense);
+
+        Mockito.verify(expenseRepository, Mockito.times(1)).save(expense);
     }
     @Test
     public void testRemoveExpenseById() {
