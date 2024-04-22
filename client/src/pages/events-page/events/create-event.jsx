@@ -26,7 +26,6 @@ const CreateEvent = () => {
   const [clicked, setClicked] = React.useState(false);
   const [checkedItems, setCheckedItems] = useState({});
   const [peopleList, setPeopleList] = React.useState([]);
-  console.log(peopleList);
 
   const fetchData = async () => {
     try {

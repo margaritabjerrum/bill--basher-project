@@ -11,6 +11,7 @@ import ExpenseListPage from './pages/expenses-page/expense-list-page';
 import CreateExpense from './pages/expenses-page/create-expense';
 import EventMembersPage from './pages/expenses-page/event-members-page';
 import UpdateExpense from './pages/expenses-page/update-expense';
+import BalancePage from './pages/events-page/balances/balance-page';
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
             <Route
               path="/updateexpense/:eventId/:expenseId"
               element={<UpdateExpense />}
+            />
+            <Route
+              path="/balance/:eventName/:eventId"
+              element={<BalancePage />}
             />
           </Routes>
         </BrowserRouter>

@@ -9,6 +9,7 @@ import CreateExpense from './pages/expenses-page/create-expense';
 import EventMembersPage from './pages/expenses-page/event-members-page';
 import Unauthorized from './unauthorized/unauthorized';
 import UpdateExpense from './pages/expenses-page/update-expense';
+import BalancePage from './pages/events-page/balances/balance-page';
 
 export const AppRouter = () => {
   const elements = useRoutes([
@@ -51,6 +52,10 @@ export const AppRouter = () => {
     {
       path: '/updateexpense/:eventId/:expenseId',
       element: <UpdateExpense />,
+    },
+    {
+      path: '/balance/:eventName/:eventId',
+      element: <BalancePage />,
     },
   ]);
 
