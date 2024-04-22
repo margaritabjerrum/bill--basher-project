@@ -78,9 +78,8 @@ const BalancePage = () => {
                   <ListItemText
                     primary={
                       <Typography variant="body2">
-                        {'Total trip balance for ' +
-                          user.username +
-                          ' is: ' +
+                        {user.username +
+                          (user.total > 0 ? ' gets back: ' : ' owes ') +
                           user.total.toFixed(2) +
                           '€'}
                       </Typography>
