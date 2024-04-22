@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
 public class UserDTO {
@@ -17,7 +16,6 @@ public class UserDTO {
     private String email;
     private Boolean isActive;
     private LocalDateTime userCreated = LocalDateTime.now();
-
     public static UserDTO mapUserDAOToDTO(UserDAO userDAO) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(userDAO.getUserId());

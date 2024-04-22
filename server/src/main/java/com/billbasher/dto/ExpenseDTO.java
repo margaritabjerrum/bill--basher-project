@@ -13,5 +13,4 @@ public class ExpenseDTO {
     private String expenseReason;
     private Double amountSpent;
     private LocalDateTime expenseCreated;
-
 }
