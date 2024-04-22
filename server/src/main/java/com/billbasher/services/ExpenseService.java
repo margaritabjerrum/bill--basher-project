@@ -115,15 +115,10 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public void deleteExpensesByEvent(@NotNull @Valid EventDAO event) {
-        if (event.getEventId() == null) {
-            throw new IllegalArgumentException("Event id must not be null");
-        }
-
+    public void deleteExpensesByEvent(EventDAO event) {
         List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
-        for (ExpenseDAO expense : expenses) {
-            expenseRepository.delete(expense);
-        }
+        expenseRepository.deleteAll(expenses);
     }
+
 }
 

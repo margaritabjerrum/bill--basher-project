@@ -2,6 +2,7 @@ package com.billbasher.services;
 
 import com.billbasher.dto.EventDTO;
 import com.billbasher.model.EventDAO;
+import com.billbasher.model.ExpenseDAO;
 import com.billbasher.model.UserDAO;
 import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
@@ -61,19 +62,25 @@ public class EventService {
         if (eventOptional.isPresent()) {
             EventDAO event = eventOptional.get();
             if (!event.getEventActive()) {
-                if (userEventRepository.countByEventId(event) <= 1) {
-                    expenseService.deleteExpensesByEvent(event);
-                    eventRepository.delete(event);
-                } else {
-                    throw new IllegalStateException("Event cannot be deleted as it is not finished or has more than one user.");
+                // Find all user IDs associated with the event
+                List<UserDAO> users = userEventService.findUsersByEventId(id);
+                // Remove each user from the event
+                for (UserDAO user : users) {
+                    userEventService.removeUserFromEvent(user.getUserId(), id);
                 }
+                // Delete all expenses associated with the event
+                expenseService.deleteExpensesByEvent(event);
+                // Delete the event itself
+                eventRepository.delete(event);
             } else {
-                throw new IllegalStateException("Event cannot be deleted as it is not finished or has more than one user.");
+                throw new IllegalStateException("Event cannot be deleted as it is not finished.");
             }
         } else {
             throw new IllegalArgumentException("Event with ID " + id + " not found.");
         }
     }
+
+
 
     public List<EventDAO> getAllEvents() {
 
