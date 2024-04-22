@@ -10,6 +10,7 @@ import com.billbasher.repository.UserRep;
 import com.billbasher.services.EventService;
 import com.billbasher.services.ExpenseService;
 import com.billbasher.services.UserEventService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -145,26 +146,23 @@ class EventServiceTest {
             eventService.deleteEventById(eventId);
         });
 
-        assertEquals("Event cannot be deleted as it is not finished or has more than one user.", exception.getMessage());
+        assertEquals("Event cannot be deleted as it is not finished.", exception.getMessage());
         verify(eventRepository, never()).delete(event);
+        verify(userEventService, never()).findUsersByEventId(anyLong());
+        verify(userEventService, never()).removeUserFromEvent(anyLong(), anyLong());
+        verify(expenseService, never()).deleteExpensesByEvent(any());
     }
-
     @Test
-    public void testDeleteEventByIdMoreThanOneUser() {
-        Long eventId = 1L;
-        EventDAO event = new EventDAO();
-        event.setEventId(eventId);
-        event.setEventActive(false);
+    public void testGetEventsByUserIdUserNotFound() {
+        Long userId = 1L;
 
-        when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
-        when(userEventRepository.countByEventId(event)).thenReturn(2L);
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            eventService.deleteEventById(eventId);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            eventService.getEventsByUserId(userId);
         });
 
-        assertEquals("Event cannot be deleted as it is not finished or has more than one user.", exception.getMessage());
-        verify(eventRepository, never()).delete(event);
+        assertEquals("User with ID " + userId + " not found.", exception.getMessage());
     }
 
     @Test
@@ -178,5 +176,33 @@ class EventServiceTest {
         });
 
         verify(eventRepository, never()).delete(any(EventDAO.class));
+    }
+    @Test
+    public void testDeactivateEvent() {
+        Long eventId = 1L;
+
+        EventDAO event = new EventDAO();
+        event.setEventId(eventId);
+        event.setEventActive(true);
+
+        when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
+        when(eventRepository.save(event)).thenReturn(event);
+
+        EventDAO deactivatedEvent = eventService.deactivateEvent(eventId);
+
+        assertFalse(deactivatedEvent.getEventActive());
+    }
+
+    @Test
+    public void testDeactivateEventNotFound() {
+        Long eventId = 1L;
+
+        when(eventRepository.findById(eventId)).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            eventService.deactivateEvent(eventId);
+        });
+
+        assertEquals("Event with id " + eventId + " not found", exception.getMessage());
     }
 }
