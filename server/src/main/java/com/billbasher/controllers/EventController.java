@@ -1,9 +1,6 @@
 package com.billbasher.controllers;
 import com.billbasher.dto.EventDTO;
-import com.billbasher.dto.UserDTO;
 import com.billbasher.model.EventDAO;
-import com.billbasher.model.UserDAO;
-import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.UserRep;
 import com.billbasher.services.EventService;
@@ -14,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 public class EventController {

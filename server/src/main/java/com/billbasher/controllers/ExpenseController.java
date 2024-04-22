@@ -3,7 +3,6 @@ package com.billbasher.controllers;
 import com.billbasher.dto.ExpenseDTO;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.ExpenseDAO;
-import com.billbasher.model.UserDAO;
 import com.billbasher.services.EventService;
 import com.billbasher.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
