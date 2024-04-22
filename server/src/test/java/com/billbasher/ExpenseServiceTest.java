@@ -150,16 +150,18 @@ public class ExpenseServiceTest {
         verify(expenseRepository, never()).findByUserIdAndEventId(any(UserDAO.class), any(EventDAO.class));
     }
     @Test
-    public void testDeleteExpensesByEventNullEventId() {
-        EventDAO event = mock(EventDAO.class);
-        when(event.getEventId()).thenReturn(null);
+    public void testDeleteExpensesByEvent() {
+        EventDAO event = new EventDAO();
+        event.setEventId(1L);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            expenseService.deleteExpensesByEvent(event);
-        });
+        List<ExpenseDAO> expenses = new ArrayList<>();
+        expenses.add(new ExpenseDAO());
+        expenses.add(new ExpenseDAO());
 
-        verify(expenseRepository, never()).findByEventId(any(EventDAO.class));
+        Mockito.when(expenseRepository.findByEventId(event)).thenReturn(expenses);
 
-        verify(expenseRepository, never()).delete(any(ExpenseDAO.class));
+        expenseService.deleteExpensesByEvent(event);
+
+        Mockito.verify(expenseRepository, Mockito.times(1)).deleteAll(expenses);
     }
 }
