@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserEventController {
@@ -45,6 +46,7 @@ public class UserEventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing user from event.");
         }
     }
+
     @GetMapping("/api/v1/events/by-user/{userId}")
     public ResponseEntity<List<EventDTO>> getEventsByUserId(@PathVariable("userId") Long userId) {
         List<UserEventDAO> userEvents = userEventService.findUserEventsByUserId(userId);
@@ -70,7 +72,11 @@ public class UserEventController {
             UserDTO userDTO = UserDTO.mapUserDAOToDTO(user);
             userDTOs.add(userDTO);
         }
-
         return ResponseEntity.ok(userDTOs);
+    }
+
+    @GetMapping("/api/v1/balance/{eventId}")
+    public List<Map<String, Object>> getTotalUsernameUserIdEventIdByEventId(@PathVariable Long eventId) {
+        return userEventService.getBalanceByEventId(eventId);
     }
 }

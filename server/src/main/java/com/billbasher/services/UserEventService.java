@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,7 +82,9 @@ public class UserEventService {
                 .collect(Collectors.toList());
         return users;
     }
-
+    public List<Map<String, Object>> getBalanceByEventId(Long eventId) {
+        return userEventRep.getTotalUsernameUserIdEventIdByEventId(eventId);
+    }
 
 
 
