@@ -16,6 +16,7 @@ public class UserDTO {
     private String email;
     private Boolean isActive;
     private LocalDateTime userCreated = LocalDateTime.now();
+
     public static UserDTO mapUserDAOToDTO(UserDAO userDAO) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(userDAO.getUserId());
