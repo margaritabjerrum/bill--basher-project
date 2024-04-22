@@ -1,4 +1,4 @@
-package com.billbasher;
+package com.billbasher.services;
 
 import com.billbasher.dto.ExpenseDTO;
 import com.billbasher.model.EventDAO;
@@ -9,7 +9,6 @@ import com.billbasher.repository.EventRep;
 import com.billbasher.repository.ExpenseRep;
 import com.billbasher.repository.UserEventRep;
 import com.billbasher.repository.UserRep;
-import com.billbasher.services.ExpenseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -68,26 +67,23 @@ public class ExpenseServiceTest {
 
         Mockito.verify(expenseRepository, Mockito.times(1)).save(expense);
     }
+
     @Test
     public void testRemoveExpenseById() {
         Long id = 1L;
         expenseService.removeExpenseById(id);
         verify(expenseRepository, times(1)).deleteById(id);
     }
+
     @Test
     public void testFindExpensesByEventId() {
-        // Given
         EventDAO event = new EventDAO();
         event.setEventId(1L);
-
         List<ExpenseDAO> expenses = new ArrayList<>();
         expenses.add(new ExpenseDAO());
         expenses.add(new ExpenseDAO());
-
         when(expenseRepository.findByEventId(event)).thenReturn(expenses);
-
         List<ExpenseDAO> result = expenseService.findExpensesByEventId(event);
-
         assertEquals(expenses.size(), result.size());
         verify(expenseRepository, times(1)).findByEventId(event);
     }
@@ -97,11 +93,8 @@ public class ExpenseServiceTest {
         Long expenseId = 1L;
         ExpenseDAO expense = new ExpenseDAO();
         expense.setExpenseId(expenseId);
-
         when(expenseRepository.save(expense)).thenReturn(expense);
-
         ExpenseDAO updatedExpense = expenseService.updateExpenseById(expenseId, expense);
-
         assertNotNull(updatedExpense);
         assertEquals(expenseId, updatedExpense.getExpenseId());
         verify(expenseRepository, times(1)).save(expense);
@@ -111,7 +104,6 @@ public class ExpenseServiceTest {
     public void testUpdateExpenseByIdInvalidId() {
         Long expenseId = null;
         ExpenseDAO expense = new ExpenseDAO();
-
         assertThrows(IllegalArgumentException.class, () -> {
             expenseService.updateExpenseById(expenseId, expense);
         });
@@ -121,7 +113,6 @@ public class ExpenseServiceTest {
     public void testUpdateExpenseByIdInvalidExpense() {
         Long expenseId = 1L;
         ExpenseDAO expense = null;
-
         assertThrows(IllegalArgumentException.class, () -> {
             expenseService.updateExpenseById(expenseId, expense);
         });
@@ -130,11 +121,9 @@ public class ExpenseServiceTest {
     @Test
     public void testGetExpensesByUserIdAndEventIdNonExistUser() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
         assertThrows(IllegalArgumentException.class, () -> {
             expenseService.getExpensesByUserIdAndEventId(1L, 1L);
         });
-
         verify(expenseRepository, never()).findByUserIdAndEventId(any(UserDAO.class), any(EventDAO.class));
     }
 
@@ -142,87 +131,69 @@ public class ExpenseServiceTest {
     public void testGetExpensesByUserIdAndEventIdNonExist() {
         UserDAO user = new UserDAO();
         user.setUserId(1L);
-
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(eventRepository.findById(1L)).thenReturn(Optional.empty());
-
         assertThrows(IllegalArgumentException.class, () -> {
             expenseService.getExpensesByUserIdAndEventId(1L, 1L);
         });
-
         verify(expenseRepository, never()).findByUserIdAndEventId(any(UserDAO.class), any(EventDAO.class));
     }
+
     @Test
     public void testDeleteExpensesByEvent() {
         EventDAO event = new EventDAO();
         event.setEventId(1L);
-
         List<ExpenseDAO> expenses = new ArrayList<>();
         expenses.add(new ExpenseDAO());
         expenses.add(new ExpenseDAO());
-
         Mockito.when(expenseRepository.findByEventId(event)).thenReturn(expenses);
-
         expenseService.deleteExpensesByEvent(event);
-
         Mockito.verify(expenseRepository, Mockito.times(1)).deleteAll(expenses);
     }
 
     @Test
     public void testFindExpenseById() {
         Long expenseId = 1L;
-
         ExpenseDAO expense = new ExpenseDAO();
         expense.setExpenseId(expenseId);
-
         when(expenseRepository.findById(expenseId)).thenReturn(Optional.of(expense));
-
         ExpenseDAO foundExpense = expenseService.findExpenseById(expenseId);
-
         assertEquals(expense, foundExpense);
     }
 
     @Test
     public void testFindExpenseByIdNotFound() {
         Long expenseId = 1L;
-
         when(expenseRepository.findById(expenseId)).thenReturn(Optional.empty());
-
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             expenseService.findExpenseById(expenseId);
         });
-
         assertEquals("Expense with id " + expenseId + " not found", exception.getMessage());
     }
+
     @Test
     public void testGetAllExpenses() {
-        // Создаем список расходов
         List<ExpenseDAO> expenses = new ArrayList<>();
         ExpenseDAO expense1 = new ExpenseDAO();
         expense1.setExpenseId(1L);
         expense1.setAmountSpent(10.0);
         expenses.add(expense1);
-
         ExpenseDAO expense2 = new ExpenseDAO();
         expense2.setExpenseId(2L);
         expense2.setAmountSpent(20.0);
         expenses.add(expense2);
-
         Mockito.when(expenseRepository.findAll()).thenReturn(expenses);
-
         List<ExpenseDAO> retrievedExpenses = expenseService.getAllExpenses();
-
         assertEquals(expenses.size(), retrievedExpenses.size());
         assertEquals(expenses, retrievedExpenses);
     }
+
     @Test
     public void testCalculateAndUpdateTotal() {
         UserDAO user1 = new UserDAO();
         user1.setUserId(1L);
-
         UserDAO user2 = new UserDAO();
         user2.setUserId(2L);
-
         EventDAO event = new EventDAO();
         event.setEventId(1L);
 
@@ -248,20 +219,18 @@ public class ExpenseServiceTest {
         expense.setAmountSpent(100.0);
 
         when(userEventRepository.findByEventId_EventId(event.getEventId())).thenReturn(userEvents);
-
         expenseService.calculateAndUpdateTotal(expense);
 
         assertEquals(50.0, userEvent1.getTotal(), 0.01);
         assertEquals(-50.0, userEvent2.getTotal(), 0.01);
     }
+
     @Test
     public void testGetExpensesByUserIdAndEventId() {
         Long userId = 1L;
         Long eventId = 1L;
-
         UserDAO user = new UserDAO();
         user.setUserId(userId);
-
         EventDAO event = new EventDAO();
         event.setEventId(eventId);
 
@@ -287,7 +256,6 @@ public class ExpenseServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
         when(expenseRepository.findByUserIdAndEventId(user, event)).thenReturn(expenses);
-
         List<ExpenseDTO> expenseDTOs = expenseService.getExpensesByUserIdAndEventId(userId, eventId);
 
         assertEquals(expenses.size(), expenseDTOs.size());
@@ -302,5 +270,4 @@ public class ExpenseServiceTest {
         assertEquals(expense1.getExpenseCreated(), expenseDTOs.get(0).getExpenseCreated());
         assertEquals(expense2.getExpenseCreated(), expenseDTOs.get(1).getExpenseCreated());
     }
-
 }
