@@ -143,6 +143,7 @@ const ExpenseListPage = () => {
             <Button
               variant="contained"
               sx={{ mt: 3, mb: 2, width: '50%', ml: 2 }}
+              onClick={() => navigate(`/balance/${eventName}/${eventId}`)}
             >
               View Balance
             </Button>

@@ -114,6 +114,11 @@ const getEventById = async (eventId) => {
   return data;
 };
 
+const getEventBalanceById = async (eventId) => {
+  const data = await api.get(`/balance/${eventId}`);
+  return data;
+};
+
 const getExpensesPerEvent = async (eventId) => {
   const data = await api.get(`/expenses/event/${eventId}`);
   return data;
@@ -176,6 +181,7 @@ const ApiService = {
   finishEvent,
   addMembersToEvent,
   getEventById,
+  getEventBalanceById,
 
   getExpensesPerEvent,
   createExpense,
