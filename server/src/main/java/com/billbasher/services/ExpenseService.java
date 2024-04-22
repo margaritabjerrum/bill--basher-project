@@ -4,8 +4,10 @@ import com.billbasher.dto.ExpenseDTO;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.ExpenseDAO;
 import com.billbasher.model.UserDAO;
+import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
 import com.billbasher.repository.ExpenseRep;
+import com.billbasher.repository.UserEventRep;
 import com.billbasher.repository.UserRep;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,11 +28,35 @@ public class ExpenseService {
     private UserRep userRepository;
     @Autowired
     private EventRep eventRepository;
+    @Autowired
+    private UserEventRep userEventRep;
 
     public ExpenseDAO createExpense(ExpenseDAO expense) {
-
+        calculateAndUpdateTotal(expense);
         return expenseRepository.save(expense);
     }
+
+    private void calculateAndUpdateTotal(ExpenseDAO expense) {
+        List<UserEventDAO> userEvents = userEventRep.findByEventId_EventId(expense.getEventId().getEventId());
+
+        int totalParticipants = userEvents.size();
+
+        double sharePerParticipant = expense.getAmountSpent() / totalParticipants;
+
+        for (UserEventDAO userEvent : userEvents) {
+            double userShare = 0.0;
+
+            if (userEvent.getUserId().getUserId().equals(expense.getUserId().getUserId())) {
+                userShare = sharePerParticipant * (totalParticipants - 1);
+            } else {
+                userShare = -sharePerParticipant;
+            }
+
+            userEvent.setTotal(userEvent.getTotal() + userShare);
+            userEventRep.save(userEvent);
+        }
+    }
+
 
     public void removeExpenseById(@PathVariable("id") Long id) {
         expenseRepository.deleteById(id);

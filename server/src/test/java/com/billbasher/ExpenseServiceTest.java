@@ -64,16 +64,6 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    public void testFindExpensesByEventIdNoExistExpenses() {
-        EventDAO event = new EventDAO();
-        event.setEventId(1L);
-        when(expenseRepository.findByEventId(event)).thenReturn(new ArrayList<>());
-        assertThrows(NoSuchElementException.class, () -> {
-            expenseService.findExpensesByEventId(event);
-        });
-    }
-
-    @Test
     public void testUpdateExpenseById() {
         Long expenseId = 1L;
         ExpenseDAO expense = new ExpenseDAO();

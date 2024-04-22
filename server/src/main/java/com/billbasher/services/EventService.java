@@ -1,7 +1,6 @@
 package com.billbasher.services;
 
 import com.billbasher.dto.EventDTO;
-import com.billbasher.dto.UserDTO;
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.UserDAO;
 import com.billbasher.model.UserEventDAO;
