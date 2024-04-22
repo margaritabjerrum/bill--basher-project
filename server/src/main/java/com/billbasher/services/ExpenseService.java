@@ -36,7 +36,7 @@ public class ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    private void calculateAndUpdateTotal(ExpenseDAO expense) {
+    public void calculateAndUpdateTotal(ExpenseDAO expense) {
         List<UserEventDAO> userEvents = userEventRep.findByEventId_EventId(expense.getEventId().getEventId());
 
         int totalParticipants = userEvents.size();
@@ -119,6 +119,5 @@ public class ExpenseService {
         List<ExpenseDAO> expenses = expenseRepository.findByEventId(event);
         expenseRepository.deleteAll(expenses);
     }
-
 }
 
