@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
     @Autowired
     private UserRep userRepository;
 
@@ -29,29 +28,23 @@ public class UserService {
             if (userDAO.isEmpty()) {
                 throw new NoSuchElementException("User not found with id: " + id);
             }
-
             Optional<UserDAO> existingUserByUsername = userRepository.findByUsername(user.getUsername());
             Optional<UserDAO> existingUserByEmail = userRepository.findByEmail(user.getEmail());
-
             boolean usernameIsChanged = !userDAO.get().getUsername().equals(user.getUsername());
             boolean emailIsChanged = !userDAO.get().getEmail().equals(user.getEmail());
-
             if(
                usernameIsChanged && existingUserByUsername.isPresent() ||
                emailIsChanged && existingUserByEmail.isPresent()
             ) {
                 throw new UserAlreadyExistsException("Username or email already exists");
             }
-
             user.setPassword(PasswordEncoderUtil.encodePassword(user.getPassword()));
             return userRepository.save(user);
-
         } catch (UserAlreadyExistsException e) {
             throw new UserAlreadyExistsException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
     }
 
     public List<UserDTO> getAllUsers() {
@@ -86,9 +79,7 @@ public class UserService {
             if (existingUser.isPresent()) {
                 throw new UserAlreadyExistsException("Username or email already exists");
             }
-
             userRepository.save(userDAO);
-
         } catch (UserAlreadyExistsException e) {
             throw new UserAlreadyExistsException(e.getMessage());
         } catch (Exception e) {
@@ -115,5 +106,4 @@ public class UserService {
         }
         return activeUsersDTO;
     }
-
 }

@@ -5,34 +5,26 @@ import com.billbasher.model.EventDAO;
 import com.billbasher.model.UserDAO;
 import com.billbasher.model.UserEventDAO;
 import com.billbasher.repository.EventRep;
-import com.billbasher.repository.UserEventRep;
 import com.billbasher.repository.UserRep;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Service
 public class EventService {
-
     @Autowired
     private EventRep eventRepository;
     @Autowired
     private UserRep userRepository;
-
     @Autowired
     private UserEventService userEventService;
-
     @Autowired
     private ExpenseService expenseService;
-    @Autowired
-    private UserEventRep userEventRepository;
 
     public EventDAO findEventById(@PathVariable("id") Long id) {
         Optional<EventDAO> eventOptional = eventRepository.findById(id);
@@ -49,7 +41,6 @@ public class EventService {
             EventDAO existingEvent = existingEventOptional.get();
             existingEvent.setEventName(event.getEventName());
             existingEvent.setEventActive(event.getEventActive());
-
             return eventRepository.save(existingEvent);
         } else {
             throw new EntityNotFoundException("Event with id " + id + " not found");
@@ -61,15 +52,11 @@ public class EventService {
         if (eventOptional.isPresent()) {
             EventDAO event = eventOptional.get();
             if (!event.getEventActive()) {
-                // Find all user IDs associated with the event
                 List<UserDAO> users = userEventService.findUsersByEventId(id);
-                // Remove each user from the event
                 for (UserDAO user : users) {
                     userEventService.removeUserFromEvent(user.getUserId(), id);
                 }
-                // Delete all expenses associated with the event
                 expenseService.deleteExpensesByEvent(event);
-                // Delete the event itself
                 eventRepository.delete(event);
             } else {
                 throw new IllegalStateException("Event cannot be deleted as it is not finished.");
@@ -79,22 +66,17 @@ public class EventService {
         }
     }
 
-
-
     public List<EventDAO> getAllEvents() {
-
         return eventRepository.findAll();
     }
 
     public EventDAO createEvent(EventDAO event) {
         EventDAO createdEvent = eventRepository.save(event);
-
         UserEventDAO userEDAO = new UserEventDAO();
         userEDAO.setEventId(createdEvent);
         userEDAO.setUserId(event.getUserId());
         userEDAO.setTotal(0);
         userEventService.addUserToEvent(userEDAO);
-
         return createdEvent;
     }
 
@@ -104,9 +86,7 @@ public class EventService {
             throw new IllegalArgumentException("User with ID " + userId + " not found.");
         }
         UserDAO user = userOptional.get();
-
         List<EventDAO> events = eventRepository.findByUserId(user);
-
         return events.stream()
                 .map(event -> new EventDTO(event.getEventId(), event.getEventName(), event.getEventActive()))
                 .collect(Collectors.toList());
@@ -122,5 +102,4 @@ public class EventService {
             throw new EntityNotFoundException("Event with id " + eventId + " not found");
         }
     }
-
 }
