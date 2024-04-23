@@ -38,18 +38,6 @@ const validateToken = async (token) => {
   return data;
 };
 
-// const updateUser = async (data) => {
-//   const res = await api.post(`updateuser`, {
-//     id: data.id,
-//     username: data.username,
-//     email: data.email,
-//     picture: data.picture,
-//     password: data.password,
-//     password2: data.password2,
-//   });
-
-//   return res;
-// };
 const getUser = async (userId) => {
   const data = await api.get(`/users/${userId}`);
   return data;
@@ -195,7 +183,6 @@ const ApiService = {
   updateExpenseById,
   deleteExpenseById,
   getUsersPerEvent,
-  // updateUser,
 };
 
 export default ApiService;
