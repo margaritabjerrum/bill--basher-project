@@ -46,6 +46,7 @@ public class ExpenseController {
         }
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
+
     @DeleteMapping("/api/v1/expenses/remove/{id}")
     public ResponseEntity<String> removeExpenseById(@PathVariable("id") Long id) {
         try {
@@ -57,6 +58,7 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing Expense.");
         }
     }
+
     @GetMapping("/api/v1/expenses/{userId}/{eventId}")
     public ResponseEntity<List<ExpenseDTO>> getExpensesByUserIdAndEventId(
             @PathVariable("userId") Long userId,

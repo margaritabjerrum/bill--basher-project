@@ -1,6 +1,5 @@
 package com.billbasher.controllers;
 
-
 import com.billbasher.exception.UserAlreadyExistsException;
 import com.billbasher.model.UserDAO;
 import com.billbasher.services.UserService;
@@ -20,6 +19,7 @@ import java.util.Map;
 public class  UserRegController {
     @Autowired
     private UserService userService;
+
     @PostMapping("/api/v1/register")
     public ResponseEntity<String> userRegistration(@Valid @RequestBody UserDAO userDAO) {
         try {

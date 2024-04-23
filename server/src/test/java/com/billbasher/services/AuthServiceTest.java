@@ -1,11 +1,9 @@
-package com.billbasher;
+package com.billbasher.services;
 import com.billbasher.dto.UserDTO;
 import com.billbasher.exception.UserNotActiveException;
 import com.billbasher.model.UserDAO;
 import com.billbasher.pswrdhashing.AuthResponse;
 import com.billbasher.pswrdhashing.JwtUtil;
-import com.billbasher.services.AuthService;
-import com.billbasher.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +31,6 @@ public class AuthServiceTest {
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -41,82 +38,58 @@ public class AuthServiceTest {
 
     @Test
     void testLogin_ValidCredentials() {
-
         UserDAO user = new UserDAO();
         user.setIsActive(true);
         user.setPassword("$2a$10$0xKfhzT11Rc4WD5mVrHsEOLNACcsJ9kRW11Nv8AfraOa572HYgKfq");
         when(userService.findByUsernameOrEmail(anyString(), anyString())).thenReturn(Optional.of(user));
-
         when(bCryptPasswordEncoder.matches(any(CharSequence.class), anyString())).thenReturn(true);
-
         when(jwtUtil.generateToken(any(UserDAO.class))).thenReturn("testToken");
-
         AuthResponse authResponse = authService.login("testUser", "password");
-
         assertNotNull(authResponse);
-
         UserDTO userDTO = authResponse.getUser();
         assertNotNull(userDTO);
-
         String jwtToken = authResponse.getToken();
         assertNotNull(jwtToken);
         assertEquals("testToken", jwtToken);
-
         verify(userService, times(1)).findByUsernameOrEmail(anyString(), anyString());
     }
 
     @Test
     void testLogin_InvalidCredentials() {
         when(userService.findByUsernameOrEmail(anyString(), anyString())).thenReturn(Optional.empty());
-
         assertThrows(UserNotActiveException.class, () -> authService.login("nonExistingUser", "password"));
-
         verify(userService, times(1)).findByUsernameOrEmail(anyString(), anyString());
     }
-
-
 
     @Test
     void testLoginUserNotActive() {
         UserDAO user = new UserDAO();
         user.setIsActive(false);
-
         when(userService.findByUsernameOrEmail(anyString(), anyString())).thenReturn(Optional.of(user));
-
         assertThrows(UserNotActiveException.class, () -> authService.login("testUser", "password"));
-
         verify(userService, times(1)).findByUsernameOrEmail(anyString(), anyString());
     }
 
     @Test
     void testLoginUserNotFound() {
         when(userService.findByUsernameOrEmail(anyString(), anyString())).thenReturn(Optional.empty());
-
         assertThrows(UserNotActiveException.class, () -> authService.login("testUser", "password"));
-
         verify(userService, times(1)).findByUsernameOrEmail(anyString(), anyString());
     }
 
     @Test
     void testIsTokenValid_ValidToken() {
         when(jwtUtil.validateToken(anyString())).thenReturn(true);
-
         boolean isValid = authService.isTokenValid("validToken");
-
         assertTrue(isValid);
-
         verify(jwtUtil, times(1)).validateToken("validToken");
     }
 
     @Test
     void testIsTokenValid_InvalidToken() {
         when(jwtUtil.validateToken(anyString())).thenReturn(false);
-
         boolean isValid = authService.isTokenValid("invalidToken");
-
         assertFalse(isValid);
-
         verify(jwtUtil, times(1)).validateToken("invalidToken");
     }
 }
-

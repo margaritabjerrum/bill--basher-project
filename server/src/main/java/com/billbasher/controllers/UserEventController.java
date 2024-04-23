@@ -50,24 +50,19 @@ public class UserEventController {
     @GetMapping("/api/v1/events/by-user/{userId}")
     public ResponseEntity<List<EventDTO>> getEventsByUserId(@PathVariable("userId") Long userId) {
         List<UserEventDAO> userEvents = userEventService.findUserEventsByUserId(userId);
-
         List<EventDTO> events = new ArrayList<>();
-
         for (UserEventDAO userEvent : userEvents) {
             EventDAO event = userEvent.getEventId();
             EventDTO eventDTO = new EventDTO(event.getEventId(),event.getEventName(),event.getEventActive());
             events.add(eventDTO);
         }
-
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/users/by-event/{eventId}")
     public ResponseEntity<List<UserDTO>> getUsersByEventId(@PathVariable("eventId") Long eventId) {
         List<UserDAO> users = userEventService.findUsersByEventId(eventId);
-
         List<UserDTO> userDTOs = new ArrayList<>();
-
         for (UserDAO user : users) {
             UserDTO userDTO = UserDTO.mapUserDAOToDTO(user);
             userDTOs.add(userDTO);

@@ -38,25 +38,19 @@ public class ExpenseService {
 
     public void calculateAndUpdateTotal(ExpenseDAO expense) {
         List<UserEventDAO> userEvents = userEventRep.findByEventId_EventId(expense.getEventId().getEventId());
-
         int totalParticipants = userEvents.size();
-
         double sharePerParticipant = expense.getAmountSpent() / totalParticipants;
-
         for (UserEventDAO userEvent : userEvents) {
             double userShare = 0.0;
-
             if (userEvent.getUserId().getUserId().equals(expense.getUserId().getUserId())) {
                 userShare = sharePerParticipant * (totalParticipants - 1);
             } else {
                 userShare = -sharePerParticipant;
             }
-
             userEvent.setTotal(userEvent.getTotal() + userShare);
             userEventRep.save(userEvent);
         }
     }
-
 
     public void removeExpenseById(@PathVariable("id") Long id) {
         expenseRepository.deleteById(id);
@@ -75,11 +69,9 @@ public class ExpenseService {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid expense id");
         }
-
         if (expense == null) {
             throw new IllegalArgumentException("Expense object must not be null");
         }
-
         return expenseRepository.save(expense);
     }
 
@@ -89,15 +81,12 @@ public class ExpenseService {
             throw new IllegalArgumentException("User with ID " + userId + " not found.");
         }
         UserDAO user = userOptional.get();
-
         Optional<EventDAO> eventOptional = eventRepository.findById(eventId);
         if (eventOptional.isEmpty()) {
             throw new IllegalArgumentException("Event with ID " + eventId + " not found.");
         }
         EventDAO event = eventOptional.get();
-
         List<ExpenseDAO> expenses = expenseRepository.findByUserIdAndEventId(user, event);
-
         return expenses.stream()
                 .map(expense -> {
                     ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -120,4 +109,3 @@ public class ExpenseService {
         expenseRepository.deleteAll(expenses);
     }
 }
-

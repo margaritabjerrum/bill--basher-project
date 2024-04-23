@@ -1,10 +1,8 @@
 package com.billbasher.controllers;
+
 import com.billbasher.dto.EventDTO;
 import com.billbasher.model.EventDAO;
-import com.billbasher.repository.EventRep;
-import com.billbasher.repository.UserRep;
 import com.billbasher.services.EventService;
-import com.billbasher.services.UserEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 public class EventController {
     @Autowired
     private EventService eventService;
-    @Autowired
-    private UserRep userRepository;
-    @Autowired
-    private EventRep eventRepository;
-    @Autowired
-    private UserEventService userEventService;
 
     @GetMapping("/api/v1/events/{id}")
     public ResponseEntity<EventDAO> findEventById(@PathVariable("id") Long id) {
@@ -68,5 +59,4 @@ public class EventController {
         EventDAO deactivatedEvent = eventService.deactivateEvent(id);
         return new ResponseEntity<>(deactivatedEvent, HttpStatus.OK);
     }
-
 }

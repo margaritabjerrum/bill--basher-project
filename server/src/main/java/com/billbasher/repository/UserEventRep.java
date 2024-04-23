@@ -1,6 +1,5 @@
 package com.billbasher.repository;
 
-
 import com.billbasher.model.EventDAO;
 import com.billbasher.model.UserEventDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +17,6 @@ public interface UserEventRep extends JpaRepository<UserEventDAO, Long> {
     List<UserEventDAO> findByUserIdUserId(Long userId);
     long countByEventId(EventDAO event);
     List<UserEventDAO> findByEventId_EventId(Long eventId);
-    List<Long> findDistinctUserIdByEventId_EventId(Long eventId);
 
     @Query(value = "SELECT NEW map(ue.total AS total, u.username AS username, u.userId AS userId, e.eventId AS eventId) " +
             "FROM UserEventDAO ue " +
@@ -27,4 +25,3 @@ public interface UserEventRep extends JpaRepository<UserEventDAO, Long> {
             "WHERE e.eventId = :eventId")
     List<Map<String, Object>> getTotalUsernameUserIdEventIdByEventId(@Param("eventId") Long eventId);
 }
-

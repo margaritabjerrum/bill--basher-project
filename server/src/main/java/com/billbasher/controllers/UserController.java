@@ -19,7 +19,6 @@ import java.util.NoSuchElementException;
 
 @RestController
 public class UserController {
-
   @Autowired
   private UserService userService;
 
@@ -59,6 +58,7 @@ public class UserController {
     userService.deleteUserById(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
+
   @GetMapping("/api/v1/users")
   public ResponseEntity<Object> getAllUsers() {
     List<UserDTO> users = userService.getAllUsers();
@@ -88,6 +88,3 @@ public class UserController {
     return ResponseEntity.ok(activeUsers);
   }
 }
-
-
-

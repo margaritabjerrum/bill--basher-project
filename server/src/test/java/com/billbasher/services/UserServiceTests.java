@@ -1,9 +1,8 @@
-package com.billbasher;
+package com.billbasher.services;
 
 import com.billbasher.dto.UserDTO;
 import com.billbasher.model.UserDAO;
 import com.billbasher.repository.UserRep;
-import com.billbasher.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -37,7 +36,6 @@ public class UserServiceTests {
     @Test
     public void testUpdateUserById_UserExists() {
         Long userId = 1L;
-
         UserDAO existingUser = new UserDAO();
         existingUser.setUserId(userId);
         existingUser.setUsername("existingUsername");
@@ -53,9 +51,7 @@ public class UserServiceTests {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(updatedUser)).thenReturn(updatedUser);
-
         UserDAO result = userService.updateUserById(userId, updatedUser);
-
         verify(userRepository, times(1)).findById(userId);
         verify(userRepository, times(1)).save(updatedUser);
         assertEquals(updatedUser, result);
@@ -63,7 +59,6 @@ public class UserServiceTests {
 
     @Test
     public void testUpdateUserById_UserNotExists() {
-        // Arrange
         Long userId = 1L;
         UserDAO updatedUser = new UserDAO();
         updatedUser.setUserId(userId);
@@ -74,18 +69,11 @@ public class UserServiceTests {
         updatedUser.setEmail("IvansKK@example.com");
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> userService.updateUserById(userId, updatedUser));
     }
 
-
-
-
-
     @Test
     public void testGetAllUsers() {
-
         UserDAO user1 = new UserDAO();
         user1.setUserId(1L);
         user1.setName("Ivans");
@@ -93,7 +81,6 @@ public class UserServiceTests {
         user1.setUsername("IvansK");
         user1.setPassword("password");
         user1.setEmail("IvansKK@example.com");
-
         UserDAO user2 = new UserDAO();
         user2.setUserId(2L);
         user2.setName("Jane");
@@ -104,8 +91,6 @@ public class UserServiceTests {
 
         List<UserDAO> userDAOList = Arrays.asList(user1, user2);
         when(userRepository.findAll()).thenReturn(userDAOList);
-
-
         List<UserDTO> result = userService.getAllUsers();
 
         assertEquals(userDAOList.size(), result.size());
@@ -124,7 +109,6 @@ public class UserServiceTests {
 
     @Test
     public void testFindUserById_UserExists() {
-
         Long userId = 1L;
         UserDAO userDAO = new UserDAO();
         userDAO.setUserId(userId);
@@ -135,7 +119,6 @@ public class UserServiceTests {
         userDAO.setEmail("IvansKK@example.com");
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(userDAO));
-
         UserDTO result = userService.findUserById(userId);
 
         assertEquals(userDAO.getUserId(), result.getUserId());
@@ -149,16 +132,13 @@ public class UserServiceTests {
 
     @Test
     public void testFindUserById_UserNotFound() {
-
         Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
         assertThrows(NoSuchElementException.class, () -> userService.findUserById(userId));
     }
 
     @Test
     public void testFindByUsernameOrEmail_UsernameFound() {
-
         String username = "IvansK";
         UserDAO userDAO = new UserDAO();
         userDAO.setUserId(1L);
@@ -169,15 +149,12 @@ public class UserServiceTests {
         userDAO.setEmail("IvansKK@example.com");
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(userDAO));
-
         Optional<UserDAO> result = userService.findByUsernameOrEmail(username, "test@example.com");
-
         assertEquals(Optional.of(userDAO), result);
     }
 
     @Test
     public void testFindByUsernameOrEmail_EmailFound() {
-
         String email = "IvansKK@example.com";
         UserDAO userDAO = new UserDAO();
         userDAO.setUserId(1L);
@@ -189,43 +166,33 @@ public class UserServiceTests {
 
         when(userRepository.findByUsername("IvansK")).thenReturn(Optional.empty());
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(userDAO));
-
         Optional<UserDAO> result = userService.findByUsernameOrEmail("IvansK", email);
-
         assertEquals(Optional.of(userDAO), result);
     }
 
     @Test
     public void testFindByUsernameOrEmail_NotFound() {
-
         String username = "IvansK";
         String email = "IvansKK@example.com";
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
-
         Optional<UserDAO> result = userService.findByUsernameOrEmail(username, email);
-
         assertEquals(Optional.empty(), result);
     }
 
     @Test
     public void testRegisterUser_UserNotExists() {
-
         UserDAO userDAO = new UserDAO();
         userDAO.setUsername("newUser");
         userDAO.setEmail("newuser@example.com");
         userDAO.setPassword("somePassword2003");
-
         when(userRepository.findByUsernameOrEmail(userDAO.getUsername(), userDAO.getEmail())).thenReturn(Optional.empty());
-
         assertDoesNotThrow(() -> userService.registerUser(userDAO));
-
         verify(userRepository, times(1)).save(userDAO);
     }
 
     @Test
     public void testDeactivateUser_UserExists() {
-
         Long userId = 1L;
         UserDAO userDAO = new UserDAO();
         userDAO.setUserId(userId);
@@ -233,39 +200,30 @@ public class UserServiceTests {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(userDAO));
         when(userRepository.save(userDAO)).thenReturn(userDAO);
-
         UserDAO result = userService.deactivateUser(userId);
-
         assertFalse(result.getIsActive());
     }
 
     @Test
     public void testDeactivateUser_UserNotFound() {
-
         Long userId = 1L;
-
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
-
         assertThrows(NoSuchElementException.class, () -> userService.deactivateUser(userId));
     }
 
     @Test
     public void testGetAllActiveUsers() {
-
         UserDAO user1 = new UserDAO();
         user1.setUserId(1L);
         user1.setIsActive(true);
-
         UserDAO user2 = new UserDAO();
         user2.setUserId(2L);
         user2.setIsActive(true);
-
         List<UserDAO> activeUsersDAO = new ArrayList<>();
         activeUsersDAO.add(user1);
         activeUsersDAO.add(user2);
 
         when(userRepository.findActiveUsers()).thenReturn(activeUsersDAO);
-
         List<UserDTO> result = userService.getAllActiveUsers();
 
         assertEquals(activeUsersDAO.size(), result.size());
@@ -280,5 +238,3 @@ public class UserServiceTests {
         }
     }
 }
-
-

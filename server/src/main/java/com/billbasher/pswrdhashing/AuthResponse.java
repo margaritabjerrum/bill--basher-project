@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AuthResponse {
-
     private UserDTO user;
     private String token;
 
@@ -15,5 +14,4 @@ public class AuthResponse {
         this.user = user;
         this.token = token;
     }
-
 }
